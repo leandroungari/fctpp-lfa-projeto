@@ -19,3 +19,8 @@ and open the template in the editor.
     -fx-effect: dropshadow(three-pass-box, rgba(204,204,204,0.8), 10, 0, 0, 0);
     -fx-border-color: #ccc;
 }
+
+#normalCursor{
+
+    -fx-background-images: url('mouse-arrow.png');
+}

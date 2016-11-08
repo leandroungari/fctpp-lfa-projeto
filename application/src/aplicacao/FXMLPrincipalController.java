@@ -37,7 +37,7 @@ public class FXMLPrincipalController implements Initializable {
             double y = event.getY();
             
             Vertice v = new Vertice(0, x, y, 20);
-            v.setFill(Color.DODGERBLUE);
+            
            
             Desenho.desenharVertice(root, v);
         });

@@ -11,7 +11,13 @@
 <AnchorPane id="principal" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.FXMLPrincipalController">
    <children>
       <ScalableContentPane id="painelDesenho" fx:id="painelDesenho" layoutX="399.0" layoutY="169.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
-      <VBox id="menuVertical" layoutX="7.0" layoutY="8.0" prefHeight="600.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+      <VBox id="menuVertical" layoutX="7.0" layoutY="8.0" prefHeight="600.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Button id="normalCursor" mnemonicParsing="false" prefHeight="47.0" prefWidth="50.0" />
+            <Button id="maoCursor" mnemonicParsing="false" prefHeight="47.0" prefWidth="50.0" />
+            <Button id="arestaCursor" mnemonicParsing="false" prefHeight="47.0" prefWidth="50.0" />
+            <Button id="normalCursor" mnemonicParsing="false" prefHeight="47.0" prefWidth="50.0" />
+         </children></VBox>
       <MenuBar maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Arquivo">

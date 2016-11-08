@@ -17,12 +17,10 @@ import jfxtras.labs.util.event.MouseControlUtil;
  * @author Leandro Ungari <leandroungari@gmail.com>
  * @date May 13,2016
  */
-public class Desenho {
-    
+public class Desenho { 
     
     private static double initialX;
-    private static double initialY;
-    
+    private static double initialY; 
     public static Grafo novo;
 
     public static void desenharVertice(Pane pane, Vertice shape) {
@@ -31,7 +29,7 @@ public class Desenho {
 
             @Override
             public void handle(MouseEvent event) {
-                //shape.corrigirArestas(grafo);
+                shape.corrigir();
             }
         }, null);
 
@@ -40,11 +38,6 @@ public class Desenho {
             initialY = shape.getLayoutY();
             shape.setLayoutX(initialX);
             shape.setLayoutY(initialY);
-            
-            
-            shape.numero.setLayoutX(shape.getLayoutX() - 5);
-            shape.numero.setLayoutY(shape.getLayoutY() + 5);
-            shape.numero.toFront();
         });
 
         shape.setOnMouseReleased(event -> {
@@ -53,19 +46,16 @@ public class Desenho {
             endX = event.getX(); endY = event.getY();
             
             if (!(endX < pane.getWidth() && endY < pane.getHeight())) {
-
                 shape.setLayoutX(initialX);
                 shape.setLayoutY(initialY);
             }
 
-            //shape.corrigirArestas(grafo);
+            shape.corrigir();
         });
 
         pane.getChildren().add(shape);
-        shape.numero.setLayoutX(shape.getCenterX() - 10);
-        shape.numero.setLayoutY(shape.getCenterY() + 5);
         pane.getChildren().add(shape.numero);
-        shape.numero.toFront();
+        shape.corrigir();
     }
 
     public static void desenharAresta(Pane pane, Aresta aresta) {
@@ -85,8 +75,5 @@ public class Desenho {
             aresta.a.setStrokeWidth(2);
             aresta.b.setStrokeWidth(2);
         }
-
     }
-
-    
 }

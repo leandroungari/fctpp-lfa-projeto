@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-
 package desenho;
 
 import java.util.ArrayList;
 import javafx.scene.Cursor;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -32,11 +32,13 @@ public class Vertice extends Circle{
         
         super(x, y, raio);
         this.ID = id;
+        this.setFill(Color.DODGERBLUE);
         
         this.numero = new Text("q" + id);
-        numero.setFont(new Font(20));
-        numero.setFill(Paint.valueOf("#fff"));
-        
+        this.numero.setFont(new Font(17));
+        this.numero.setFill(Paint.valueOf("#fff"));
+        this.numero.setLayoutX(this.getCenterX() - 10);
+        this.numero.setLayoutY(this.getCenterY() + 5);
         
         this.setOnMouseEntered(event ->{
             this.getScene().setCursor(Cursor.OPEN_HAND);
@@ -45,18 +47,6 @@ public class Vertice extends Circle{
         this.setOnMouseExited(event ->{
             this.getScene().setCursor(Cursor.DEFAULT);
         });
-        
-    }
-
-    public void setContorno(){
-        
-        this.numero.toFront();
-        if(selected){
-            this.desselecionarVertice();
-        }
-        else{
-            this.selecionarVertice();
-        }
     }
     
     public int getID(){
@@ -67,15 +57,9 @@ public class Vertice extends Circle{
         this.ID = id;
     }
     
-    public void corrigirArestas(Grafo grafo){
-        
-        for(int a: origem) {
-            
-            grafo.edges.get(a).setInicio();
-        }
-        for(int b: destino) grafo.edges.get(b).setDestino();
-        this.numero.setLayoutX(this.getLayoutX()-4);
-        this.numero.setLayoutY(this.getLayoutY()+4);
+    public void corrigir(){
+        this.numero.setX(this.getLayoutX());
+        this.numero.setY(this.getLayoutY());
         this.numero.toFront();
     }
 
@@ -83,23 +67,7 @@ public class Vertice extends Circle{
         return selected;
     }
     
-    
-    public void selecionarVertice(){
-        
-        this.setStroke(Paint.valueOf("#000"));
-        this.setStrokeWidth(8);
-        selected = true;
-    }
-    
-    public void desselecionarVertice(){
-        
-        this.setStroke(Paint.valueOf("transparent"));
-        this.setStrokeWidth(1);
-        selected = false;
-    }
-    
     public void opacidade(double value){
-        
         this.setOpacity(value);
     }
 
@@ -118,6 +86,4 @@ public class Vertice extends Circle{
     public void setDestino(ArrayList<Integer> destino) {
         this.destino = destino;
     }
-    
-    
 }
