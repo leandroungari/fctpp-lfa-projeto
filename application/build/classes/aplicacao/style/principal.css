@@ -22,5 +22,33 @@ and open the template in the editor.
 
 #normalCursor{
 
-    -fx-background-images: url('mouse-arrow.png');
+    -fx-background-image: url('cursor.png');
+    -fx-background-size: 30px 30px;
+    -fx-background-position: 5px 5px;
+    -fx-background-repeat: no-repeat;
+    -fx-cursor: hand;
+}
+
+#maoCursor{
+    -fx-background-image: url('move.png');
+    -fx-background-size: 30px 30px;
+    -fx-background-position: 5px 5px;
+    -fx-background-repeat: no-repeat;
+    -fx-cursor: hand;
+}
+
+#noCursor{
+    -fx-background-image: url('pointer.png');
+    -fx-background-size: 30px 30px;
+    -fx-background-position: 5px 5px;
+    -fx-background-repeat: no-repeat;
+    -fx-cursor: hand;
+}
+
+#textoCursor{
+    -fx-background-image: url('text.png');
+    -fx-background-size: 30px 30px;
+    -fx-background-position: 5px 5px;
+    -fx-background-repeat: no-repeat;
+    -fx-cursor: hand;
 }
