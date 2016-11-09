@@ -50,10 +50,10 @@
                      <children>
                         <VBox maxWidth="40.0" minWidth="40.0" prefHeight="299.0" prefWidth="40.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                              <Button id="normalCursor" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                              <Button id="maoCursor" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                              <Button id="noCursor" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                              <Button id="textoCursor" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
                            </children>
                         </VBox>
                         <ScalableContentPane id="painelDesenho" fx:id="painelDesenho" javafx.scene.layout.GridPane.columnIndex="1" />
