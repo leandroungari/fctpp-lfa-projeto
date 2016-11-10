@@ -81,7 +81,7 @@
                                 <columns>
                                   <TableColumn fx:id="naoTerminal" resizable="false" text="LHS" />
                                   <TableColumn fx:id="seta" prefWidth="70.0" resizable="false" />
-                                    <TableColumn fx:id="terminal" prefWidth="343.0" resizable="false" text="RHS" />
+                                    <TableColumn fx:id="terminal" prefWidth="336.0" resizable="false" text="RHS" />
                                 </columns>
                               </TableView>
                               <TextField layoutX="62.0" layoutY="379.0" />

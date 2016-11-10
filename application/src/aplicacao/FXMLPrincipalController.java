@@ -118,6 +118,12 @@ public class FXMLPrincipalController implements Initializable {
             public void handle(CellEditEvent<LinhaTabela, String> event) {
                 
                 ((LinhaTabela) event.getTableView().getItems().get(event.getTablePosition().getRow())).setTerminal(event.getNewValue());
+                
+                
+                
+                if(table.getSelectionModel().getSelectedIndex() == table.getItems().size() - 1){
+                    table.getItems().add(new LinhaTabela("", "->", ""));
+                }
             }
                 
         });
