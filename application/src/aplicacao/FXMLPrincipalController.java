@@ -40,8 +40,6 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     private ScalableContentPane painelDesenho;
     @FXML
-    private Button verificarBotao;
-    @FXML
     private TextField regraTextField;
     @FXML
     private TextField entradaTextField;
@@ -72,22 +70,57 @@ public class FXMLPrincipalController implements Initializable {
             Desenho.desenharVertice(root, v);
         });
         
-        verificarBotao.setOnAction(event -> {
+        this.entradaTextField.setStyle("-fx-border-color:#31ef02");
+        this.entradaTextField.setStyle("-fx-background-color:#31ef02");
+        this.entradaTextField.setStyle("-fx-text-color:#ffffff");
+        
+        regraTextField.setOnKeyReleased(event ->{
             
             String regra = this.regraTextField.getText();
             String entrada = this.entradaTextField.getText();
             
-            boolean verif = Pattern.matches(regra, entrada);
+            try{
+                Pattern.compile(regra);
+                boolean verif = Pattern.matches(regra, entrada);
+                this.trocarCorTextField(verif, entradaTextField);
+            }catch(PatternSyntaxException e){
+                
+            }
             
-            if(verif)JOptionPane.showMessageDialog(null, "deu certo");
-            else JOptionPane.showMessageDialog(null, "nao deu certo");
         });
         
-
+        entradaTextField.setOnKeyReleased(event ->{
+            
+            String regra = this.regraTextField.getText();
+            String entrada = this.entradaTextField.getText();
+            
+            try{
+                Pattern.compile(regra);
+                boolean verif = Pattern.matches(regra, entrada);
+                this.trocarCorTextField(verif, entradaTextField);
+            }catch(PatternSyntaxException e){
+                
+            }
+            
+        });
         
         this.inicializarTabela();
     }    
-    
+ 
+    public void trocarCorTextField(boolean verif, TextField tf){
+        
+        if(verif){
+            //Cor verde = #31ef02 - Correto
+            tf.setStyle("-fx-border-color:#31ef02");
+            tf.setStyle("-fx-background-color:#31ef02");
+        }
+        else {
+            //Cor vermelho = #ff0f0f - Errado
+            tf.setStyle("-fx-border-color:#ff0f0f");
+            tf.setStyle("-fx-background-color:#ff0f0f");
+        }
+    }
+            
     public void inicializarTabela(){
         
         this.criarLinhaTabela();

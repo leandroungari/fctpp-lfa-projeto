@@ -43,7 +43,6 @@
                         <TextField fx:id="entradaTextField" layoutX="135.0" layoutY="85.0" prefHeight="25.0" prefWidth="279.0" />
                         <Label layoutX="22.0" layoutY="34.0" text="Regra" />
                         <Label layoutX="22.0" layoutY="89.0" text="Entrada" />
-                        <Button fx:id="verificarBotao" layoutX="353.0" layoutY="138.0" mnemonicParsing="false" text="Verificar" />
                      </children>
                   </Pane>
                </content></Tab>
@@ -81,7 +80,7 @@
                                 <columns>
                                   <TableColumn fx:id="naoTerminal" resizable="false" text="LHS" />
                                   <TableColumn fx:id="seta" prefWidth="70.0" resizable="false" />
-                                    <TableColumn fx:id="terminal" prefWidth="336.0" resizable="false" text="RHS" />
+                                    <TableColumn fx:id="terminal" prefWidth="330.0" resizable="false" text="RHS" />
                                 </columns>
                               </TableView>
                               <TextField layoutX="62.0" layoutY="379.0" />

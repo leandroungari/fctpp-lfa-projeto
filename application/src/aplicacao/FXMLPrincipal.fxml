@@ -43,7 +43,6 @@
                         <TextField fx:id="entradaTextField" layoutX="135.0" layoutY="85.0" prefHeight="25.0" prefWidth="279.0" />
                         <Label layoutX="22.0" layoutY="34.0" text="Regra" />
                         <Label layoutX="22.0" layoutY="89.0" text="Entrada" />
-                        <Button fx:id="verificarBotao" layoutX="353.0" layoutY="138.0" mnemonicParsing="false" text="Verificar" />
                      </children>
                   </Pane>
                </content></Tab>
