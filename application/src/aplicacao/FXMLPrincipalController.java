@@ -12,13 +12,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
@@ -77,9 +83,15 @@ public class FXMLPrincipalController implements Initializable {
             else JOptionPane.showMessageDialog(null, "nao deu certo");
         });
         
-        this.criarLinhaTabela();
+
         
+        this.inicializarTabela();
     }    
+    
+    public void inicializarTabela(){
+        
+        this.criarLinhaTabela();
+    }
  
     public void criarLinhaTabela(){
         
@@ -87,6 +99,29 @@ public class FXMLPrincipalController implements Initializable {
         naoTerminal.setCellValueFactory(new PropertyValueFactory<LinhaTabela, String>("naoTerminal"));
         seta.setCellValueFactory(new PropertyValueFactory<LinhaTabela, String>("seta"));
         terminal.setCellValueFactory(new PropertyValueFactory<LinhaTabela, String>("terminal"));
+        
+        naoTerminal.setCellFactory(TextFieldTableCell.forTableColumn());
+        naoTerminal.setOnEditCommit(new EventHandler<CellEditEvent<LinhaTabela, String>>() {
+            
+            @Override
+            public void handle(CellEditEvent<LinhaTabela, String> event) {
+                
+                ((LinhaTabela) event.getTableView().getItems().get(event.getTablePosition().getRow())).setNaoTerminal(event.getNewValue());
+            }        
+        });
+        
+        
+        terminal.setCellFactory(TextFieldTableCell.forTableColumn());
+        terminal.setOnEditCommit(new EventHandler<CellEditEvent<LinhaTabela, String>>() {
+            
+            @Override
+            public void handle(CellEditEvent<LinhaTabela, String> event) {
+                
+                ((LinhaTabela) event.getTableView().getItems().get(event.getTablePosition().getRow())).setTerminal(event.getNewValue());
+            }
+                
+        });
+        
         
         ObservableList<LinhaTabela> conteudo;
         
@@ -96,12 +131,4 @@ public class FXMLPrincipalController implements Initializable {
         table.setItems(conteudo);
     }
     
-    public void recuperarLinhaPosicao(){
-        
-        this.table.getSelectionModel().selectedItemProperty().addListener(event ->{
-        
-            LinhaTabela linha = (LinhaTabela) table.getSelectionModel().selectedItemProperty().get();
-            
-        });
-    }
 }
