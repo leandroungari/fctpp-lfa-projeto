@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
@@ -51,6 +52,8 @@ public class FXMLPrincipalController implements Initializable {
     private TableColumn seta;
     @FXML
     private TableColumn terminal;
+    @FXML
+    private Label labelErroER;
     
     private Pane root;
     
@@ -70,37 +73,30 @@ public class FXMLPrincipalController implements Initializable {
             Desenho.desenharVertice(root, v);
         });
         
+        //Expressão Regular - inicio
         this.entradaTextField.setStyle("-fx-border-color:#31ef02");
         this.entradaTextField.setStyle("-fx-background-color:#31ef02");
-        this.entradaTextField.setStyle("-fx-text-color:#ffffff");
         
         regraTextField.setOnKeyReleased(event ->{
             
             String regra = this.regraTextField.getText();
-            String entrada = this.entradaTextField.getText();
             
-            try{
-                Pattern.compile(regra);
-                boolean verif = Pattern.matches(regra, entrada);
-                this.trocarCorTextField(verif, entradaTextField);
-            }catch(PatternSyntaxException e){
-                
+            if(!this.verificarSintaxeRegraRegex(regra)){
+                this.labelErroER.setVisible(true);
+                this.regraTextField.setStyle("-fx-border-color:#ff0f0f");
+                this.entradaTextField.setStyle("-fx-background-color:#ff0f0f");
+            }
+            else{
+                this.labelErroER.setVisible(false);
+                this.regraTextField.setStyle("-fx-border:none");
+                this.patternRegexERcomEntrada();
             }
             
         });
         
         entradaTextField.setOnKeyReleased(event ->{
             
-            String regra = this.regraTextField.getText();
-            String entrada = this.entradaTextField.getText();
-            
-            try{
-                Pattern.compile(regra);
-                boolean verif = Pattern.matches(regra, entrada);
-                this.trocarCorTextField(verif, entradaTextField);
-            }catch(PatternSyntaxException e){
-                
-            }
+            this.patternRegexERcomEntrada();
             
         });
         
@@ -120,6 +116,37 @@ public class FXMLPrincipalController implements Initializable {
             tf.setStyle("-fx-background-color:#ff0f0f");
         }
     }
+    
+    public boolean verificarSintaxeRegraRegex(String regra){
+        
+        char c;
+        for(int i = 0; i < regra.length(); i++){
+            c = regra.charAt(i);
+            
+            if(!Character.isLetterOrDigit(c)){
+                
+                if(c != '+' && c != '*' && c != '.' && c != '|' && c != '.' && c != '(' && c != ')'){
+                    return false;
+                }
+            }
+        }
+        
+        return(true);
+    }
+    
+    public void patternRegexERcomEntrada(){
+        
+        String regra = this.regraTextField.getText();
+        String entrada = this.entradaTextField.getText();
+            
+        try{
+            Pattern.compile(regra);
+            boolean verif = Pattern.matches(regra, entrada);
+            this.trocarCorTextField(verif, entradaTextField);
+        }catch(PatternSyntaxException e){}
+        
+    }
+    //Expressão Regular - Fim
             
     public void inicializarTabela(){
         
