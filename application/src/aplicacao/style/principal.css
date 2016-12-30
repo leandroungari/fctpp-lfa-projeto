@@ -29,7 +29,7 @@ and open the template in the editor.
     -fx-cursor: hand;
 }
 
-#maoCursor{
+#moverCursor{
     -fx-background-image: url('move.png');
     -fx-background-size: 30px 30px;
     -fx-background-position: 5px 5px;
@@ -37,7 +37,7 @@ and open the template in the editor.
     -fx-cursor: hand;
 }
 
-#noCursor{
+#inserirCursor{
     -fx-background-image: url('pointer.png');
     -fx-background-size: 30px 30px;
     -fx-background-position: 5px 5px;

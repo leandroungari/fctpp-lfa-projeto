@@ -5,11 +5,14 @@
  */
 package aplicacao;
 
+import desenho.Aresta;
 import java.util.regex.*;
-import desenho.Desenho;
+import desenho.Legenda;
 import desenho.Vertice;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -19,17 +22,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javax.swing.JOptionPane;
-import jfxtras.labs.scene.layout.ScalableContentPane;
+import javafx.scene.text.Text;
 
 
 /**
@@ -38,12 +36,29 @@ import jfxtras.labs.scene.layout.ScalableContentPane;
  */
 public class FXMLPrincipalController implements Initializable {
     
+    /////////////////////////////
+    // Itens para o desenho de automatos
     @FXML
-    private ScalableContentPane painelDesenho;
+    private Pane painelDesenho;
+    @FXML
+    private Button normalCursor;
+    @FXML
+    private Button moverCursor;
+    @FXML
+    private Button inserirCursor;
+    @FXML
+    private Button textoCursor;
+    
+    
+    /////////////////////////////
+    // Itens para a expressão regular
     @FXML
     private TextField regraTextField;
     @FXML
     private TextField entradaTextField;
+    
+    /////////////////////////////////
+    //Itens para a gramática regular
     @FXML
     private TableView table;
     @FXML
@@ -54,24 +69,44 @@ public class FXMLPrincipalController implements Initializable {
     private TableColumn terminal;
     @FXML
     private Label labelErroER;
+    @FXML
+    private Button executarGramatica;
+    @FXML
+    private Button limparGramatica;
+    @FXML
+    private TextField entradaGramatica;
     
-    private Pane root;
+    ////////////////////////////////////
+    //Itens gerais
+    
+    public static Vertice verticeAtual;
+    public static Legenda legendaAtual;
+    public static Text textoAtual;
+    public static Pane painelD;
+    
+    public static Vertice verticeInicial;
+    public static Vertice verticeFinal;
+    public static Vertice verticeSobre;
+    
+    public static ArrayList<Vertice> lista = new ArrayList<>();
+    public static ConcurrentLinkedQueue<Aresta> arestas = new ConcurrentLinkedQueue<>();
+    public static ArrayList<Legenda> legendas = new ArrayList<>();
+    public static Estado estado;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        root = painelDesenho.getContentPane();
+        painelD = painelDesenho;
         
-        painelDesenho.setOnMousePressed(event -> {
+        //Executar automatos
+        GerenciadorAutomatos g = new GerenciadorAutomatos();
+        g.montarPainel(painelDesenho, lista, legendas);
+        g.montarBotoes(normalCursor, moverCursor, inserirCursor, textoCursor);
         
-            double x = event.getX();
-            double y = event.getY();
-            
-            Vertice v = new Vertice(0, x, y, 20);
-            
-           
-            Desenho.desenharVertice(root, v);
-        });
+        
+        //Executar gramática
+        GerenciadorGramatica gramatica = new GerenciadorGramatica();
+        gramatica.montarGramatica(table, executarGramatica, limparGramatica, entradaGramatica);
         
         //Expressão Regular - inicio
         this.entradaTextField.setStyle("-fx-border-color:#31ef02");
@@ -196,5 +231,7 @@ public class FXMLPrincipalController implements Initializable {
         
         table.setItems(conteudo);
     }
+    
+    
     
 }

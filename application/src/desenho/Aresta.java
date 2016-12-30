@@ -21,23 +21,21 @@ public abstract class Aresta {
     protected Vertice destino;
     protected boolean directed;
     protected boolean selected = false;
-    protected int peso;
+    protected String texto;
 
-    public Text labelPeso;
+    public Text labelTexto;
     public Point pa, pb, pc;
     public Line a, b;
     
 
     public boolean dupla = false;
 
-    public Aresta(Vertice origem, Vertice destino, int peso, boolean directed) {
+    public Aresta(Vertice origem, Vertice destino, String texto, boolean directed) {
 
         this.origem = origem;
         this.destino = destino;
         this.directed = directed;
-        this.peso = peso;
-
-        
+        this.texto = texto;
     }
     
     public abstract void setInicio();
@@ -45,6 +43,7 @@ public abstract class Aresta {
     public abstract void setDestino();
     
     public void selecionarAresta() {
+        
         this.getForma().setStrokeWidth(5);
         if(directed && origem.getID() != destino.getID()) {
             this.a.setStrokeWidth(5);
@@ -93,18 +92,14 @@ public abstract class Aresta {
         int yA = size;
         int yB = -size;
 
-        labelPeso.setLayoutX(xAB * -cos - yA * -sen + meioX);
-        labelPeso.setLayoutY(xAB * -sen + yA * -cos + meioY);
+        labelTexto.setLayoutX(xAB * -cos - yA * -sen + meioX);
+        labelTexto.setLayoutY(xAB * -sen + yA * -cos + meioY);
     }
 
     public abstract Shape getForma();
     
     public abstract void posicionarFlecha();
 
-    public int getPeso() {
-        return peso;
-    }
-    
     public int getOrigem(){
         return this.origem.getID();
     }
@@ -119,10 +114,6 @@ public abstract class Aresta {
     
     public Vertice getDestinoVertice(){
         return this.destino;
-    }
-
-    public Text getLabelPeso() {
-        return labelPeso;
     }
     
     public String toString(){

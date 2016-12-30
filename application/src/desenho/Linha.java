@@ -21,17 +21,15 @@ public class Linha extends Aresta {
 
     private Line forma;
 
-    public Linha(Vertice origem, Vertice destino, int peso, boolean directed) {
-        super(origem, destino, peso, directed);
+    public Linha(Vertice origem, Vertice destino, String texto, boolean directed) {
+        super(origem, destino, texto, directed);
 
         this.forma = new Line(origem.getLayoutX(), origem.getLayoutY(), destino.getLayoutX(), destino.getLayoutY());
-        
-        if (peso != 0) {
-            labelPeso = new Text(String.valueOf(peso));
-            labelPeso.setStroke(Paint.valueOf("#000"));
-            labelPeso.setFill(Paint.valueOf("#222"));
-            posicionarTexto();
-        }
+
+        labelTexto = new Text(String.valueOf(texto));
+        labelTexto.setStroke(Paint.valueOf("#000"));
+        labelTexto.setFill(Paint.valueOf("#222"));
+        posicionarTexto();
 
         if (directed) {
 
@@ -69,9 +67,9 @@ public class Linha extends Aresta {
     public void setInicio() {
         forma.setStartX(origem.getLayoutX());
         forma.setStartY(origem.getLayoutY());
-        if (peso != 0) {
-            posicionarTexto();
-        }
+
+        posicionarTexto();
+
         if (directed) {
             posicionarFlecha();
         }
@@ -80,9 +78,9 @@ public class Linha extends Aresta {
     public void setDestino() {
         forma.setEndX(destino.getLayoutX());
         forma.setEndY(destino.getLayoutY());
-        if (peso != 0) {
-            posicionarTexto();
-        }
+
+        posicionarTexto();
+
         if (directed) {
             posicionarFlecha();
         }
@@ -120,8 +118,7 @@ public class Linha extends Aresta {
         b.setEndY(pb.getY());
     }
 
-
-   @Override
+    @Override
     public Shape getForma() {
         return this.forma;
     }

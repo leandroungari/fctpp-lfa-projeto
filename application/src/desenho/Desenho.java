@@ -5,75 +5,63 @@
  */
 package desenho;
 
-
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import aplicacao.FXMLPrincipalController;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import jfxtras.labs.util.event.MouseControlUtil;
 
 /**
  *
  * @author Leandro Ungari <leandroungari@gmail.com>
  * @date May 13,2016
  */
-public class Desenho { 
-    
+public class Desenho {
+
     private static double initialX;
-    private static double initialY; 
-    public static Grafo novo;
+    private static double initialY;
 
     public static void desenharVertice(Pane pane, Vertice shape) {
 
-        MouseControlUtil.makeDraggable(shape, new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                shape.corrigir();
-            }
-        }, null);
-
-        shape.setOnDragDetected((MouseEvent event) -> {
-            initialX = shape.getLayoutX();
-            initialY = shape.getLayoutY();
-            shape.setLayoutX(initialX);
-            shape.setLayoutY(initialY);
-        });
-
-        shape.setOnMouseReleased(event -> {
-            
-            double endX, endY;
-            endX = event.getX(); endY = event.getY();
-            
-            if (!(endX < pane.getWidth() && endY < pane.getHeight())) {
-                shape.setLayoutX(initialX);
-                shape.setLayoutY(initialY);
-            }
-
-            shape.corrigir();
-        });
-
         pane.getChildren().add(shape);
         pane.getChildren().add(shape.numero);
-        shape.corrigir();
     }
 
-    public static void desenharAresta(Pane pane, Aresta aresta) {
+    public static void desenharCampo(Pane pane, TextField text) {
 
-        aresta.getForma().setStroke(Paint.valueOf("#000"));
+        pane.getChildren().add(text);
+    }
 
-        pane.getChildren().add(aresta.getForma());
-        aresta.getForma().setStrokeWidth(2);
+    public static void desenharAresta(Pane pane, Vertice inicio, Vertice fim, String texto) {
 
-        if (aresta.getPeso() != 0) {
-            pane.getChildren().add(aresta.labelPeso);
-        }
+        if (inicio == fim) {
+            
+            Loop aresta = new Loop(inicio, texto, false);
+            aresta.getForma().setStroke(Paint.valueOf("#000"));
+            aresta.getForma().setStrokeWidth(1);
+            aresta.getForma().setFill(Color.TRANSPARENT);
+            
+            FXMLPrincipalController.arestas.add(aresta);
 
-        if (aresta.isDirected() && !(aresta instanceof Loop)) {
+            pane.getChildren().add(aresta.getForma());
+            pane.getChildren().add(aresta.labelTexto);
+            aresta.getForma().toBack();
+            
+        } else {
+            
+            Arco aresta = new Arco(inicio, fim, texto, true);
+            aresta.getForma().setStroke(Paint.valueOf("#000"));
+            aresta.getForma().setStrokeWidth(1);
+            aresta.getForma().setFill(Color.TRANSPARENT);
+
+            FXMLPrincipalController.arestas.add(aresta);
+
+            pane.getChildren().add(aresta.getForma());
+            pane.getChildren().add(aresta.labelTexto);
             pane.getChildren().add(aresta.a);
             pane.getChildren().add(aresta.b);
-            aresta.a.setStrokeWidth(2);
-            aresta.b.setStrokeWidth(2);
+            aresta.getForma().toBack();
         }
+
     }
 }
