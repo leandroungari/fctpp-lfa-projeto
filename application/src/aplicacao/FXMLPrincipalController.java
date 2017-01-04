@@ -202,6 +202,21 @@ public class FXMLPrincipalController implements Initializable {
             public void handle(CellEditEvent<LinhaTabela, String> event) {
                 
                 ((LinhaTabela) event.getTableView().getItems().get(event.getTablePosition().getRow())).setNaoTerminal(event.getNewValue());
+                Object[] t = table.getItems().toArray();
+                table.getItems().clear();
+                int i;
+                for(i = 0; i < t.length; i++){
+                    
+                    if(i == t.length-1){
+                        ((LinhaTabela) t[i]).setTerminal("λ");
+                    }
+                    
+                    table.getItems().add(t[i]);
+                }
+                
+                
+                
+                System.out.println();
             }        
         });
         

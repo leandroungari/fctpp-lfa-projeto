@@ -34,21 +34,30 @@ public class Desenho {
 
     public static void desenharAresta(Pane pane, Vertice inicio, Vertice fim, String texto) {
 
+        for (Aresta a : FXMLPrincipalController.arestas) {
+            if ((a.getOrigemVertice() == inicio && a.getDestinoVertice() == fim)
+                    || (a.getOrigemVertice() == fim && a.getDestinoVertice() == inicio)) {
+
+                a.getLabelTexto().setText(a.getLabelTexto().getText() + " | " + texto);
+                return;
+            }
+        }
+
         if (inicio == fim) {
-            
+
             Loop aresta = new Loop(inicio, texto, false);
             aresta.getForma().setStroke(Paint.valueOf("#000"));
             aresta.getForma().setStrokeWidth(1);
             aresta.getForma().setFill(Color.TRANSPARENT);
-            
+
             FXMLPrincipalController.arestas.add(aresta);
 
             pane.getChildren().add(aresta.getForma());
             pane.getChildren().add(aresta.labelTexto);
             aresta.getForma().toBack();
-            
+
         } else {
-            
+
             Arco aresta = new Arco(inicio, fim, texto, true);
             aresta.getForma().setStroke(Paint.valueOf("#000"));
             aresta.getForma().setStrokeWidth(1);

@@ -119,4 +119,14 @@ public abstract class Aresta {
     public String toString(){
         return " ["+this.getOrigem()+","+this.getDestino()+ "] ";
     }
+
+    public Text getLabelTexto() {
+        return labelTexto;
+    }
+
+    public void setLabelTexto(Text labelTexto) {
+        this.labelTexto = labelTexto;
+    }
+    
+    
 }
