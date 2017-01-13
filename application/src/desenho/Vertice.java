@@ -6,7 +6,6 @@
 package desenho;
 
 import aplicacao.FXMLPrincipalController;
-import aplicacao.GerenciadorAutomatos;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -59,6 +58,7 @@ public class Vertice extends Circle {
         MenuItem remover = new MenuItem("Remover");
         remover.setOnAction(event -> {
             FXMLPrincipalController.painelD.getChildren().remove(this.numero);
+            FXMLPrincipalController.painelD.getChildren().remove(this.inicio);
             FXMLPrincipalController.painelD.getChildren().remove(this);
 
             for (Aresta a : FXMLPrincipalController.arestas) {
@@ -121,11 +121,21 @@ public class Vertice extends Circle {
         inicio.setOnAction(event -> {
 
             if (!isInitial) {
+                
+                for(Vertice v: FXMLPrincipalController.lista){
+                    if(v.isIsInitial()){
+                        
+                        v.setIsInitial(false);
+                        FXMLPrincipalController.painelD.getChildren().remove(v.inicio);
+                    }
+                }
+                
                 this.inicio.setLayoutX(this.getCenterX() - 35);
                 this.inicio.setLayoutY(this.getCenterY() - 15);
                 FXMLPrincipalController.painelD.getChildren().add(this.inicio);
 
                 isInitial = true;
+                
             } else {
                 FXMLPrincipalController.painelD.getChildren().remove(this.inicio);
             }
@@ -316,6 +326,14 @@ public class Vertice extends Circle {
 
     }
 
+    public boolean isIsInitial() {
+        return isInitial;
+    }
+
+    public void setIsInitial(boolean isInitial) {
+        this.isInitial = isInitial;
+    }
+
     public int getID() {
         return this.ID;
     }
@@ -377,6 +395,7 @@ public class Vertice extends Circle {
         entrada.setLayoutX(xP);
         entrada.setLayoutY(yP);
         entrada.setPrefSize(50, 13);
+        entrada.setText("λ");
         entrada.setOnKeyReleased(e -> {
 
             if (e.getCode() == KeyCode.ENTER) {

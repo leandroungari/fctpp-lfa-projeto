@@ -9,17 +9,24 @@ import desenho.Aresta;
 import java.util.regex.*;
 import desenho.Legenda;
 import desenho.Vertice;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -28,6 +35,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 /**
@@ -69,12 +79,12 @@ public class FXMLPrincipalController implements Initializable {
     private TableColumn terminal;
     @FXML
     private Label labelErroER;
+
     @FXML
-    private Button executarGramatica;
+    private MenuItem entradaUnica;
     @FXML
-    private Button limparGramatica;
-    @FXML
-    private TextField entradaGramatica;
+    private MenuItem entradaMultipla; 
+    
     
     ////////////////////////////////////
     //Itens gerais
@@ -106,7 +116,7 @@ public class FXMLPrincipalController implements Initializable {
         
         //Executar gramática
         GerenciadorGramatica gramatica = new GerenciadorGramatica();
-        gramatica.montarGramatica(table, executarGramatica, limparGramatica, entradaGramatica);
+        //gramatica.montarGramatica(table, executarGramatica, limparGramatica, entradaGramatica);
         
         //Expressão Regular - inicio
         this.entradaTextField.setStyle("-fx-border-color:#31ef02");
@@ -136,6 +146,33 @@ public class FXMLPrincipalController implements Initializable {
         });
         
         this.inicializarTabela();
+        
+        entradaUnica.setOnAction(event -> {
+
+
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("FXMLEntradaUnica.fxml"));
+
+            } catch (IOException ex) {
+
+                Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle("Gramática - Entrada única");
+            stage.setScene(new Scene(root, 450, 450));
+            //stage.setAlwaysOnTop(true);
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            
+
+            stage.initStyle(StageStyle.DECORATED);
+            stage.showAndWait();
+     
+        
+        });
     }    
  
     public void trocarCorTextField(boolean verif, TextField tf){

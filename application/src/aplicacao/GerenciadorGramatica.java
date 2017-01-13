@@ -5,6 +5,7 @@
  */
 package aplicacao;
 
+import codificacoes.representacaoComputacional.MatrizTransicao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.control.Button;
@@ -18,21 +19,59 @@ import javafx.scene.control.TextField;
  */
 public class GerenciadorGramatica {
 
-    private HashMap<String, ArrayList<String>> tabela = new HashMap<>();
-
+    private MatrizTransicao matriz;
+    
     public void montarGramatica(TableView tabela, Button ex, Button clear, TextField entrada) {
-
+        /*
         //executar
         ex.setOnAction(event -> {
-
+            
+            int numeroNaoTerminais, numeroTerminais;
+            
+            HashMap<String, Integer> chaveamento = new HashMap<>();
             LinhaTabela linha;
-            ArrayList<String> lista;
+            ArrayList<String> listaTerminais = new ArrayList<>();
+            ArrayList<String> listaNaoTerminais = new ArrayList<>();
+            
 
             Object[] o = tabela.getItems().toArray();
+            int counter = 0;
             for (Object a : o) {
                 linha = (LinhaTabela) a;
 
                 if (!linha.getNaoTerminal().isEmpty()) {
+                    
+                    if (!chaveamento.containsKey(linha.getNaoTerminal())) {
+                        chaveamento.put(linha.getNaoTerminal(), counter++);
+                    }
+                }
+            }
+            
+            MatrizTransicao matriz = new MatrizTransicao(chaveamento.size());
+            
+            for (Object a : o) {
+                linha = (LinhaTabela) a;
+
+                if (!linha.getNaoTerminal().isEmpty()) {
+                    
+                    String analise = linha.getTerminal();
+                    
+                    boolean gramaticaDireita;
+                    
+                    //linear a esquerda
+                    if(Character.isUpperCase(analise.charAt(0))){
+                        gramaticaDireita = false;
+                        
+                    }
+                    //linear a direita
+                    else if(Character.isUpperCase(analise.charAt(1))){
+                        gramaticaDireita = true;
+                    }
+                    //não possui simbolo nao-terminal
+                    else{
+                        
+                    }
+                    
                     
                     if (this.tabela.containsKey(linha.getNaoTerminal())) {
                         lista = this.tabela.get(linha.getNaoTerminal());
@@ -45,10 +84,16 @@ public class GerenciadorGramatica {
                 }
             }
             
+            
+            
             String entradaPadrao = entrada.getText();
             int count = 0;
             String initialSymbol = ((LinhaTabela) tabela.getItems().get(0)).getNaoTerminal();
             // Chave + ArrayList
+            
+            
+            
+            
             int i = 0;
             boolean verificacao = true;
             while(i < entradaPadrao.length()){
@@ -66,7 +111,7 @@ public class GerenciadorGramatica {
 
             tabela.getItems().clear();
             tabela.getItems().add(new LinhaTabela("", "->", ""));
-        });
+        });*/
 
     }
 }

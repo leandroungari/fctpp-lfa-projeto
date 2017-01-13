@@ -35,10 +35,10 @@ public class Desenho {
     public static void desenharAresta(Pane pane, Vertice inicio, Vertice fim, String texto) {
 
         for (Aresta a : FXMLPrincipalController.arestas) {
-            if ((a.getOrigemVertice() == inicio && a.getDestinoVertice() == fim)
-                    || (a.getOrigemVertice() == fim && a.getDestinoVertice() == inicio)) {
+            if ((a.getOrigemVertice() == inicio && a.getDestinoVertice() == fim)) {
 
-                a.getLabelTexto().setText(a.getLabelTexto().getText() + " | " + texto);
+                a.getLabelTexto().setText(a.getLabelTexto().getText() + "|" + texto);
+                a.texto = a.getLabelTexto().getText();
                 return;
             }
         }
