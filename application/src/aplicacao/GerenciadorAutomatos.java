@@ -8,12 +8,12 @@ package aplicacao;
 import static aplicacao.FXMLPrincipalController.legendaAtual;
 import static aplicacao.FXMLPrincipalController.verticeAtual;
 import static aplicacao.FXMLPrincipalController.textoAtual;
+import desenho.Aresta;
 import desenho.Desenho;
 import desenho.Legenda;
 import desenho.Vertice;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
@@ -31,6 +31,39 @@ public class GerenciadorAutomatos {
     private Vertice inicio;
     private Vertice fim;
     public static boolean subtitleNode = false;
+    public static Automato automato;
+    
+    public static void armazenarAutomato(){
+        
+        automato = new Automato();
+        Estados est;
+        for(Vertice v: FXMLPrincipalController.lista){
+            est = new Estados(v.getID(), v.isSelected());
+            automato.getLista().add(est);
+            if(v.isIsInitial()) automato.setInicial(est);
+        }
+        
+        for(Aresta a: FXMLPrincipalController.arestas){
+            
+            Estados inicio = null, fim = null;
+            
+            for(Estados e: automato.getLista()){
+                
+                if(e.getValor() == a.getOrigem()) inicio = e;
+                if(e.getValor() == a.getDestino()) fim = e;
+            }
+
+            
+            String[] transicoes = a.getTexto().split("|");
+            for(String as: transicoes){
+                if(!as.equals("|")){
+                    
+                    inicio.getLista().add(new Transicao(as, fim));
+                }
+            }
+        }
+    }
+    
 
     public void montarPainel(Pane painelDesenho, ArrayList<Vertice> lista, ArrayList<Legenda> legendas) {
 

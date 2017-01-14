@@ -19,7 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author Leandro Ungari <leandroungari@gmail.com>
  */
-public class FXMLEntradaMultiplaController implements Initializable {
+public class FXMLEntradaMultiplaAutomatoController implements Initializable {
 
     @FXML
     private Button executar;
@@ -63,7 +63,7 @@ public class FXMLEntradaMultiplaController implements Initializable {
 
         executar.setOnAction(event -> {
 
-            GerenciadorGramatica.armazenarGramatica(FXMLPrincipalController.tabelaD);
+            GerenciadorAutomatos.armazenarAutomato();
 
             //usar a variavel estrutura da classe GerenciarAutomatos
         });

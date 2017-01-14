@@ -9,13 +9,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="principal" prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.FXMLEntradaMultiplaController">
+<AnchorPane id="principal" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.FXMLEntradaMultiplaController">
    <children>
-      <Label layoutX="30.0" layoutY="42.0" text="Entrada" />
-      <TextField layoutX="101.0" layoutY="38.0" />
-      <Button layoutX="266.0" layoutY="38.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="61.0" text="Executar" />
-      <Button layoutX="333.0" layoutY="38.0" mnemonicParsing="false" text="Limpar" />
-      <Label layoutX="30.0" layoutY="95.0" text="Resultado" />
-      <TextArea layoutX="100.0" layoutY="90.0" prefHeight="137.0" prefWidth="271.0" />
+      <Label layoutX="20.0" layoutY="42.0" text="Entrada" />
+      <TextField fx:id="entrada" layoutX="76.0" layoutY="38.0" />
+      <Button fx:id="adicionar" layoutX="243.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Adicionar" />
+      <Button fx:id="limpar" layoutX="322.0" layoutY="38.0" mnemonicParsing="false" text="Limpar" />
+      <TableView fx:id="tabela" layoutX="25.0" layoutY="87.0" prefHeight="318.0" prefWidth="350.0">
+        <columns>
+          <TableColumn fx:id="naoTerminal" maxWidth="173.0" minWidth="173.0" prefWidth="173.0" resizable="false" text="Entrada" />
+          <TableColumn fx:id="seta" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" resizable="false" />
+            <TableColumn fx:id="terminal" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Resultado" />
+        </columns>
+      </TableView>
+      <Button fx:id="executar" layoutX="165.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Executar" />
    </children>
 </AnchorPane>

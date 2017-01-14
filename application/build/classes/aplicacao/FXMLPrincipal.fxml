@@ -20,7 +20,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Automatos Finitos">
             <items>
-              <MenuItem mnemonicParsing="false" text="Limpar tela de desenho" />
+              <MenuItem fx:id="entradaUnicaAutomato" mnemonicParsing="false" text="Entrada Única" />
+                  <MenuItem fx:id="entradaMultiplaAutomato" mnemonicParsing="false" text="Entrada Multipla" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Gramática">
@@ -95,11 +96,9 @@
                               <TableColumn fx:id="terminal" prefWidth="330.0" resizable="false" text="RHS" />
                           </columns>
                         </TableView>
-                        <TextField fx:id="entradaGramatica" layoutX="576.0" layoutY="201.0" />
-                        <Button fx:id="executarGramatica" layoutX="596.0" layoutY="261.0" mnemonicParsing="false" text="Executar" />
-                        <Button fx:id="limparGramatica" layoutX="576.0" layoutY="305.0" mnemonicParsing="false" text="Limpar gramática" />
-                        <Label layoutX="42.0" layoutY="413.0" text="Símbolos não-terminais: " />
-                        <Label layoutX="42.0" layoutY="444.0" text="Símbolos terminais: " />
+                        <Button fx:id="limparGramatica" layoutX="214.0" layoutY="491.0" mnemonicParsing="false" text="Limpar gramática" />
+                        <Label fx:id="stringNaoTerminal" layoutX="42.0" layoutY="413.0" text="Símbolos não-terminais: " />
+                        <Label fx:id="stringTerminal" layoutX="42.0" layoutY="444.0" text="Símbolos terminais: " />
                      </children></AnchorPane>
               </content>
             </Tab>

@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
  *
  * @author Leandro Ungari <leandroungari@gmail.com>
  */
-public class FXMLEntradaUnicaController implements Initializable {
+public class FXMLEntradaUnicaAutomatoController implements Initializable {
     
     @FXML
     private Button executar;
@@ -42,7 +42,7 @@ public class FXMLEntradaUnicaController implements Initializable {
         
         executar.setOnAction(event -> {
             
-           GerenciadorGramatica.armazenarGramatica(FXMLPrincipalController.tabelaD);
+           GerenciadorAutomatos.armazenarAutomato();
            
            //usar a variavel estrutura da classe GerenciarAutomatos
            

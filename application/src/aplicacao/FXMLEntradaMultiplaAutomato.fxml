@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="principal" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.FXMLEntradaMultiplaController">
+<AnchorPane id="principal" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacao.FXMLEntradaMultiplaAutomatoController">
    <children>
       <Label layoutX="20.0" layoutY="42.0" text="Entrada" />
       <TextField fx:id="entrada" layoutX="76.0" layoutY="38.0" />
