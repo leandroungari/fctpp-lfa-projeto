@@ -54,6 +54,8 @@
                               <Font size="10.0" />
                            </font>
                         </Label>
+                        <Button fx:id="botaoAjudaER" layoutX="24.0" layoutY="146.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Ajuda" />
+                        <TextArea fx:id="textAreaAjudaER" layoutX="22.0" layoutY="197.0" prefHeight="332.0" prefWidth="754.0" visible="false" />
                      </children>
                   </Pane>
                </content></Tab>

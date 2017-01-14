@@ -202,7 +202,7 @@ public class FXMLPrincipalController implements Initializable {
                 + "* : Qualquer quantidade de um determinado caractere, ou string, inclusive vazio!\n"
                 + "+ : Qualquer quantidade de um determinado caractere, não incluindo o vazio!\n"
                 + ". : Concatenação\n"
-                + "( ) : Parenteses, muito utilizado para expressões regulaes do tipo (a|b)*\n\n"
+                + "( ) : Parênteses, muito utilizado para expressões regulares do tipo (a|b)*\n\n"
                 + "Exemplos de entradas:\n\n"
                 + "1)Expressão Regular: (a|b)\n"
                 + "1)Entrada: a\n"
