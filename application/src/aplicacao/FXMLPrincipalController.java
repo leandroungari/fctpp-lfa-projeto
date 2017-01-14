@@ -30,6 +30,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -66,6 +67,10 @@ public class FXMLPrincipalController implements Initializable {
     private TextField regraTextField;
     @FXML
     private TextField entradaTextField;
+    @FXML
+    private Button botaoAjudaER;
+    @FXML
+    private TextArea textAreaAjudaER;
     
     /////////////////////////////////
     //Itens para a gramática regular
@@ -145,6 +150,14 @@ public class FXMLPrincipalController implements Initializable {
             
         });
         
+        this.adicionarTextoTextArea(this.textAreaAjudaER);
+        botaoAjudaER.setOnMouseClicked(event ->{
+           
+            if(this.textAreaAjudaER.isVisible()) this.textAreaAjudaER.setVisible(false);
+            else this.textAreaAjudaER.setVisible(true);
+            
+        });
+        
         this.inicializarTabela();
         
         entradaUnica.setOnAction(event -> {
@@ -175,6 +188,41 @@ public class FXMLPrincipalController implements Initializable {
         });
     }    
  
+        public void adicionarTextoTextArea(TextArea ta){
+        
+        String conteudo = "Instruções para a utilização da aplicação:\n"
+                + "Expressões Regulares\n\n"
+                + "No campo Expressão Regular deve ser inserido a ER, regra, que espera-se que um conjunto de strings de entrada sejam validas.\n\n"
+                + "No campo Entrada deve ser inserido uma string e a aplicação verifica se a strng de entrada está valida de acordo com a regra definida\nanteriormente.\n\n"
+                + "Caracteres Valídos para o campo de Expressão Regular: Letras, Números, '+', '*', '.', '(', ')', '|' \n"
+                + "Caso qualquer caractere invalído seja inserido, não será realizado a verificação com relação a string de entrada.\n\n"
+                + "Significado dos caracteres:\n\n"
+                + "Letras e números : Caracteres da string de entrada\n"
+                + "| : OU\n"
+                + "* : Qualquer quantidade de um determinado caractere, ou string, inclusive vazio!\n"
+                + "+ : Qualquer quantidade de um determinado caractere, não incluindo o vazio!\n"
+                + ". : Concatenação\n"
+                + "( ) : Parenteses, muito utilizado para expressões regulaes do tipo (a|b)*\n\n"
+                + "Exemplos de entradas:\n\n"
+                + "1)Expressão Regular: (a|b)\n"
+                + "1)Entrada: a\n"
+                + "Para o exemplo 1) a entrada está correta, pois a expressão permite qualquer entrada o formada por um único a ou um único b.\n\n"
+                + "2)Expressão Regular: a(a|b)*\n"
+                + "2)Entrada: aaaab\n"
+                + "Para o exemplo 2) a entrada está correta, pois a expressão permite qualquer entrada formada inicialmente pela letra a, seguido\n"
+                + "de qualquer ocorrência de 'a' ou 'b' sendo estes em qualquer quantidade.\n\n"
+                + "3)Expressão Regular: a*\n"
+                + "3)Entrada: aaaaaaa\n"
+                + "Para o exemplo 3) a entrada está correta, pois a expressão permite qualquer entrada o formada por qualquer quantidade de a, \n"
+                + "inclusive nenhum.\n\n"
+                + "4)Expressão Regular: a+\n"
+                + "4)Entrada: aaa\n"
+                + "Para o exemplo 4) a entrada está correta, pois a expressão permite qualquer entrada o formada por qualquer quantidade de a, \n"
+                + "sendo que essa quantidade seja pelo menos um.\n\n";
+        
+        ta.setText(conteudo);
+    }
+    
     public void trocarCorTextField(boolean verif, TextField tf){
         
         if(verif){
