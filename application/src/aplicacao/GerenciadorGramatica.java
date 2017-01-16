@@ -20,6 +20,8 @@ public class GerenciadorGramatica {
     public static ArrayList<String> listaNaoTerminais = new ArrayList<>(); //vetor com não-terminais
 
     public static ArrayList<String>[] estrutura;
+    
+    
 
     public void montarGramatica(TableView tabela, Button clear) {
 

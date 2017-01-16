@@ -44,6 +44,7 @@ public class FXMLEntradaUnicaController implements Initializable {
             
            GerenciadorGramatica.armazenarGramatica(FXMLPrincipalController.tabelaD);
            
+           String entradaTexto = entrada.getText();
            //usar a variavel estrutura da classe GerenciarAutomatos
            
            

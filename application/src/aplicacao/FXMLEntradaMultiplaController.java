@@ -6,6 +6,7 @@
 package aplicacao;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -66,6 +67,18 @@ public class FXMLEntradaMultiplaController implements Initializable {
             GerenciadorGramatica.armazenarGramatica(FXMLPrincipalController.tabelaD);
 
             //usar a variavel estrutura da classe GerenciarAutomatos
+            
+            Object[] listas = tabela.getItems().toArray();
+            LinhaTabela linha;
+            ArrayList<String> valoresEntrada = new ArrayList<>();
+            for(int i = 0; i < listas.length; i++){
+                linha = (LinhaTabela) listas[i];
+                valoresEntrada.add(linha.getNaoTerminal());
+            }
+            
+            
+            //o  ArrayList valoresEntrada contém os as strings de entrada
+            
         });
 
     }
