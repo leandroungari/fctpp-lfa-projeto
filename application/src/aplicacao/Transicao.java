@@ -5,11 +5,7 @@
  */
 package aplicacao;
 
-/**
- *
- * @author Leandro Ungari Cayres <leandroungari@gmail.com>
- * @date   January 14,2017
- */
+
 public class Transicao {
     
     

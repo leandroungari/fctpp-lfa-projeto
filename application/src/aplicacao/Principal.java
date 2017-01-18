@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Leandro Ungari <leandroungari@gmail.com>
+ * @author Bruno Santos de Lima
+ * @author Leandro Ungari
  */
 public class Principal extends Application {
     

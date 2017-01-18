@@ -40,10 +40,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-/**
- *
- * @author Leandro Ungari <leandroungari@gmail.com>
- */
+
 public class FXMLPrincipalController implements Initializable {
 
     /////////////////////////////

@@ -22,7 +22,7 @@ import javafx.scene.layout.Pane;
 
 
 public class GerenciadorAutomatos {
-
+    
     public int quantidade = 0;
     private Vertice inicio;
     private Vertice fim;
@@ -30,6 +30,9 @@ public class GerenciadorAutomatos {
     public static Automato automato;
     public static boolean verificacao = false;
     
+    public static String caminhoResultado;
+    
+    public static ArrayList<VerificacaoEE> vetor;
     
     public static void armazenarAutomato(){
         
@@ -61,7 +64,6 @@ public class GerenciadorAutomatos {
             }
         }
     }
-    
 
     public void montarPainel(Pane painelDesenho, ArrayList<Vertice> lista, ArrayList<Legenda> legendas) {
 
@@ -311,10 +313,17 @@ public class GerenciadorAutomatos {
         
         //Chamo a função pela primeira vez com a palavra de entrada, posição da string e o estado inicial.
         verificacao = false;
+        
+        vetor = new ArrayList<>();
         verificaRegra(palavraDeEntrada, 0, automato.getLista().indexOf(automato.getInicial()));
     }
     
     public static void verificaRegra(String palavraDeEntrada, int posPalavra, int estadoAtual){
+        
+        for(VerificacaoEE v : vetor){ //Verificação ciclo vazio!
+            
+            if(v.getNumEstado() == estadoAtual && v.posPalavra == posPalavra) return;
+        }
         
         if( ((posPalavra) == palavraDeEntrada.length()) && (automato.getLista().get(estadoAtual).isIsFinal()) ) {
             verificacao = true;
@@ -324,7 +333,7 @@ public class GerenciadorAutomatos {
         boolean aux = false;
         for(int i = 0; i < automato.getLista().get(estadoAtual).getLista().size(); i++){
             
-            if(automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) == '?' && automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()) == estadoAtual){
+            if(automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) == 'λ' && automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()) != estadoAtual){
             
                 aux = true;
                 break;
@@ -339,12 +348,15 @@ public class GerenciadorAutomatos {
         
         for(int i = 0; i < automato.getLista().get(estadoAtual).getLista().size(); i++){
                         
-            if('?' == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0)){
+            if('λ' == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0)){
                 
                 if(automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()) == estadoAtual) continue;
-                else verificaRegra(palavraDeEntrada, posPalavra, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
+                else {
+                    vetor.add(new VerificacaoEE(estadoAtual, posPalavra));
+                    verificaRegra(palavraDeEntrada, posPalavra, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
+                }
             }
-            else if(palavraDeEntrada.isEmpty() && automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) != '?'){
+            else if(palavraDeEntrada.isEmpty() && automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) != 'λ'){
                 continue;
             }
             else if(palavraDeEntrada.charAt(posPalavra) == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) ){

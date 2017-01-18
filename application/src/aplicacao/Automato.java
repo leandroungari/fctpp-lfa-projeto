@@ -7,11 +7,6 @@ package aplicacao;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Leandro Ungari Cayres <leandroungari@gmail.com>
- * @date   January 14,2017
- */
 public class Automato {
     
     private ArrayList<Estados> lista = new ArrayList<>();

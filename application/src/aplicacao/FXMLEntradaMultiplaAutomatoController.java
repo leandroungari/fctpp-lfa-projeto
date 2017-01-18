@@ -78,8 +78,36 @@ public class FXMLEntradaMultiplaAutomatoController implements Initializable {
                 valoresEntrada.add(linha.getNaoTerminal());
             }
             
+            ArrayList<String> resultado = new ArrayList<>();
             
             //o  ArrayList valoresEntrada contém os as strings de entrada
+            for(String s: valoresEntrada){
+                
+                GerenciadorAutomatos.processamentoAutomato(s);
+                
+                if(GerenciadorAutomatos.verificacao){
+                    resultado.add("Aprovado");
+                }
+                else{
+                    resultado.add("Rejeitado");
+                }
+            }
+            
+            Object[] vetor = tabela.getItems().toArray();
+
+            LinhaTabela li;
+            for (int i = 0; i < vetor.length; i++) {
+                li = (LinhaTabela) vetor[i];
+                li.setTerminal(resultado.get(i));
+            }
+
+            Object[] t = tabela.getItems().toArray();
+            tabela.getItems().clear();
+            int i;
+            for (i = 0; i < t.length; i++) {
+
+                tabela.getItems().add(t[i]);
+            }
         });
 
     }

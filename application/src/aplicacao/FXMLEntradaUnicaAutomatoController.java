@@ -14,10 +14,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 
-/**
- *
- * @author Leandro Ungari <leandroungari@gmail.com>
- */
 public class FXMLEntradaUnicaAutomatoController implements Initializable {
     
     @FXML
@@ -48,7 +44,15 @@ public class FXMLEntradaUnicaAutomatoController implements Initializable {
            String entradaTexto = entrada.getText(); 
            
            GerenciadorAutomatos.processamentoAutomato(entradaTexto);
-           System.out.println(GerenciadorAutomatos.verificacao);
+           
+           GerenciadorAutomatos.caminhoResultado = "";
+           if(GerenciadorAutomatos.verificacao){
+               saida.setText("Aprovado.\nCaminho: " + GerenciadorAutomatos.caminhoResultado);
+           }
+           else{
+               saida.setText("Rejeitado.");
+           }
+           
         });
         
     }  
