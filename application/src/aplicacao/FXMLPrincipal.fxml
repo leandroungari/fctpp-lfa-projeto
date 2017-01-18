@@ -22,6 +22,7 @@
             <items>
               <MenuItem fx:id="entradaUnicaAutomato" mnemonicParsing="false" text="Entrada Única" />
                   <MenuItem fx:id="entradaMultiplaAutomato" mnemonicParsing="false" text="Entrada Multipla" />
+                  <MenuItem fx:id="entradaPassoPasso" mnemonicParsing="false" text="Passo a Passo" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Gramática">

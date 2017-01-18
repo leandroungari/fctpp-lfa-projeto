@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -60,6 +61,8 @@ public class FXMLPrincipalController implements Initializable {
     private MenuItem entradaUnicaAutomato;
     @FXML
     private MenuItem entradaMultiplaAutomato;
+    @FXML
+    private MenuItem entradaPassoPasso;
 
     /////////////////////////////
     // Itens para a expressão regular
@@ -231,6 +234,38 @@ public class FXMLPrincipalController implements Initializable {
             stage.setScene(new Scene(root, 450, 450));
             //stage.setAlwaysOnTop(true);
             stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.initStyle(StageStyle.DECORATED);
+            stage.showAndWait();
+
+        });
+        
+        entradaPassoPasso.setOnAction(event -> {
+            
+            
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("FXMLEntradaPassoPasso.fxml"));
+
+            } catch (IOException ex) {
+
+                Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle("Autômatos - Passo a Passo");
+            stage.setScene(new Scene(root));
+            //stage.setAlwaysOnTop(true);
+            stage.setResizable(false);
+            
+            stage.setOnCloseRequest(e -> {
+                
+                for(Vertice v: FXMLPrincipalController.lista){
+                    v.setFill(Color.DODGERBLUE);
+                }
+            });
+            
             stage.initModality(Modality.APPLICATION_MODAL);
 
             stage.initStyle(StageStyle.DECORATED);
