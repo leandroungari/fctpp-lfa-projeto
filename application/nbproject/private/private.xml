@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/Transicao.java</file>
-            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/GerenciadorAutomatos.java</file>
-            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/GerenciadorGramatica.java</file>
-            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/LinhaTabela.java</file>
-            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/FXMLEntradaUnicaAutomatoController.java</file>
+            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/Estados.java</file>
+            <file>file:/C:/Users/BRUNO/Documents/Ciência%20da%20Computação%20-%20UNESP/3º%20Ano/2º%20Semestre/Linguagens%20Formais%20e%20Automatos/fctpp-lfa-projeto/application/src/aplicacao/FXMLPrincipalController.java</file>
         </group>
     </open-files>
 </project-private>

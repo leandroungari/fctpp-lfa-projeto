@@ -43,9 +43,10 @@ public class FXMLEntradaUnicaAutomatoController implements Initializable {
            //usar a variavel estrutura da classe GerenciarAutomatos
            String entradaTexto = entrada.getText(); 
            
+           GerenciadorAutomatos.caminhoResultado = "";
+           
            GerenciadorAutomatos.processamentoAutomato(entradaTexto);
            
-           GerenciadorAutomatos.caminhoResultado = "";
            if(GerenciadorAutomatos.verificacao){
                saida.setText("Aprovado.\nCaminho: " + GerenciadorAutomatos.caminhoResultado);
            }

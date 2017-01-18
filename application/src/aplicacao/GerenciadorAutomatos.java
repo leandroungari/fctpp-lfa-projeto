@@ -71,24 +71,6 @@ public class GerenciadorAutomatos {
 
         painelDesenho.setOnMousePressed((MouseEvent event) -> {
 
-            /*switch (FXMLPrincipalController.estado) {
-
-                case NORMAL_CURSOR:
-                    
-                    break;
-
-                case MOVER_CURSOR:
-
-                    break;
-
-                case INSERIR_CURSOR:
-
-                    break;
-
-                case TEXTO_CURSOR:
-                    
-                    break;
-            }*/
             switch (FXMLPrincipalController.estado) {
 
                 case NORMAL_CURSOR:
@@ -96,7 +78,6 @@ public class GerenciadorAutomatos {
                     if (event.isPrimaryButtonDown()) {
                         double distancia, dx, dy;
 
-                        //System.out.println("entrou " + (painelDesenho.getLayoutX() + event.getX()-40) + " -> " + (painelDesenho.getLayoutY() + event.getY()));
                         for (Vertice v : FXMLPrincipalController.lista) {
                             dx = Math.pow(v.getCenterX() - (painelDesenho.getLayoutX() + event.getX() - 40), 2);
                             dy = Math.pow(v.getCenterY() - (painelDesenho.getLayoutY() + event.getY()), 2);
@@ -243,7 +224,6 @@ public class GerenciadorAutomatos {
                      dx,
                      dy;
 
-                    //System.out.println("saiu " + (painelDesenho.getLayoutX() + event.getX()-40) + " -> " + (painelDesenho.getLayoutY() + event.getY()));
                     for (Vertice v : FXMLPrincipalController.lista) {
                         dx = Math.pow(v.getCenterX() - (painelDesenho.getLayoutX() + event.getX() - 40), 2);
                         dy = Math.pow(v.getCenterY() - (painelDesenho.getLayoutY() + event.getY()), 2);
@@ -315,6 +295,9 @@ public class GerenciadorAutomatos {
         verificacao = false;
         
         vetor = new ArrayList<>();
+        
+        caminhoResultado += "q" + automato.getLista().get(automato.getLista().indexOf(automato.getInicial())).getValor() + " -> ";
+        
         verificaRegra(palavraDeEntrada, 0, automato.getLista().indexOf(automato.getInicial()));
     }
     
@@ -342,7 +325,6 @@ public class GerenciadorAutomatos {
         }
         
         if( (!aux) && ((posPalavra) == palavraDeEntrada.length()) && (!automato.getLista().get(estadoAtual).isIsFinal()) ){
-            System.out.println("dgf");
             return;
         }
         
@@ -353,6 +335,7 @@ public class GerenciadorAutomatos {
                 if(automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()) == estadoAtual) continue;
                 else {
                     vetor.add(new VerificacaoEE(estadoAtual, posPalavra));
+                    caminhoResultado += "q" + automato.getLista().get(estadoAtual).getLista().get(i).getAlvo().getValor() + " -> ";
                     verificaRegra(palavraDeEntrada, posPalavra, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
                 }
             }
@@ -361,6 +344,7 @@ public class GerenciadorAutomatos {
             }
             else if(palavraDeEntrada.charAt(posPalavra) == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) ){
                 
+                caminhoResultado += "q" + automato.getLista().get(estadoAtual).getLista().get(i).getAlvo().getValor() + " -> ";
                 verificaRegra(palavraDeEntrada, posPalavra+1, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
             }
         }
