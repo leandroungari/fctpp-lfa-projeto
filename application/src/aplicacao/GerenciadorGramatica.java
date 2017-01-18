@@ -75,30 +75,11 @@ public class GerenciadorGramatica {
          *
          *
          */
-        for (int i = 0; i < listaNaoTerminais.size(); i++) {
-            System.out.println();
-            for (String a : estrutura[i]) {
-                System.out.println(a);
-            }
-        }
 
     }
 
-    /*
-    public static void processamentoGramatica(String palavraDeEntrada){
-        
-        
-    }
-    
-    public void verificacaoGramatica(){
-        
-        
-    }*/
     public static void processamentoGramatica(String palavraDeEntrada) {
 
-        //char caracter;
-        //for(int i = 0; i < palavraDeEntrada.length(); i++){
-        //caracter = palavraDeEntrada.charAt(0);
         verificacao = false;
         resultadoGramatica = "";
         int inicio;
@@ -110,7 +91,6 @@ public class GerenciadorGramatica {
         }
         
         verificaRegra(palavraDeEntrada, inicio, estrutura, 0, palavraDeEntrada.length());
-        //}
 
     }
 
@@ -121,7 +101,7 @@ public class GerenciadorGramatica {
 
             if (0 <= posPalavra && posPalavra < posF) {
 
-                if (linearDireita) { // glud
+                if (linearDireita) { // GLUD
 
                     if (estrutura[posI].get(i).charAt(0) == palavraDeEntrada.charAt(posPalavra)) {
 
@@ -163,18 +143,18 @@ public class GerenciadorGramatica {
                             verificaRegra(palavraDeEntrada, posPalavra, estrutura, proxPosI, posF);
 
                             if (verificacao) {
-                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+                                resultadoGramatica = estrutura[posI].get(i) + " -> " + resultadoGramatica;
 
-                                if (posPalavra != 0) {
+                                /*if (posPalavra != 0) {
                                     resultadoGramatica = " -> " + resultadoGramatica;
-                                }
+                                }*/
 
                                 return;
                             }
                         }
                     }
 
-                } else { //glue
+                } else { //GLUE
                     
                     char t = estrutura[posI].get(i).charAt(estrutura[posI].get(i).length()-1);
                     if (t == palavraDeEntrada.charAt(posPalavra)) {
@@ -217,11 +197,11 @@ public class GerenciadorGramatica {
                             verificaRegra(palavraDeEntrada, posPalavra, estrutura, proxPosI, posF);
 
                             if (verificacao) {
-                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+                                resultadoGramatica =  estrutura[posI].get(i) + " -> " + resultadoGramatica;
 
-                                if (posPalavra != posF-1) {
+                                /*if (posPalavra != posF-1) {
                                     resultadoGramatica = " -> " + resultadoGramatica;
-                                }
+                                }*/
 
                                 return;
                             }

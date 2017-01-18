@@ -31,6 +31,7 @@ public class GerenciadorAutomatos {
     public static boolean verificacao = false;
     
     public static String caminhoResultado;
+    public static ArrayList<Integer> passoApasso;
     
     public static ArrayList<VerificacaoEE> vetor;
     
@@ -295,10 +296,12 @@ public class GerenciadorAutomatos {
         verificacao = false;
         
         vetor = new ArrayList<>();
+        passoApasso = new ArrayList<>();
         
         caminhoResultado += "q" + automato.getLista().get(automato.getLista().indexOf(automato.getInicial())).getValor() + " -> ";
-        
+        passoApasso.add(automato.getLista().get(automato.getLista().indexOf(automato.getInicial())).getValor());
         verificaRegra(palavraDeEntrada, 0, automato.getLista().indexOf(automato.getInicial()));
+        
     }
     
     public static void verificaRegra(String palavraDeEntrada, int posPalavra, int estadoAtual){
@@ -336,6 +339,7 @@ public class GerenciadorAutomatos {
                 else {
                     vetor.add(new VerificacaoEE(estadoAtual, posPalavra));
                     caminhoResultado += "q" + automato.getLista().get(estadoAtual).getLista().get(i).getAlvo().getValor() + " -> ";
+                    passoApasso.add(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo().getValor());
                     verificaRegra(palavraDeEntrada, posPalavra, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
                 }
             }
@@ -345,6 +349,7 @@ public class GerenciadorAutomatos {
             else if(palavraDeEntrada.charAt(posPalavra) == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) ){
                 
                 caminhoResultado += "q" + automato.getLista().get(estadoAtual).getLista().get(i).getAlvo().getValor() + " -> ";
+                passoApasso.add(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo().getValor());
                 verificaRegra(palavraDeEntrada, posPalavra+1, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
             }
         }
