@@ -47,6 +47,8 @@ public class FXMLEntradaUnicaAutomatoController implements Initializable {
            //usar a variavel estrutura da classe GerenciarAutomatos
            String entradaTexto = entrada.getText(); 
            
+           GerenciadorAutomatos.processamentoAutomato(entradaTexto);
+           System.out.println(GerenciadorAutomatos.verificacao);
         });
         
     }  

@@ -20,11 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-/**
- *
- * @author Leandro Ungari Cayres <leandroungari@gmail.com>
- * @date November 26,2016
- */
+
 public class GerenciadorAutomatos {
 
     public int quantidade = 0;
@@ -32,6 +28,8 @@ public class GerenciadorAutomatos {
     private Vertice fim;
     public static boolean subtitleNode = false;
     public static Automato automato;
+    public static boolean verificacao = false;
+    
     
     public static void armazenarAutomato(){
         
@@ -309,4 +307,52 @@ public class GerenciadorAutomatos {
         texto.setTooltip(new Tooltip("Inserir anotações de texto."));
     }
 
+    public static void processamentoAutomato(String palavraDeEntrada){
+        
+        //Chamo a função pela primeira vez com a palavra de entrada, posição da string e o estado inicial.
+        verificacao = false;
+        verificaRegra(palavraDeEntrada, 0, automato.getLista().indexOf(automato.getInicial()));
+    }
+    
+    public static void verificaRegra(String palavraDeEntrada, int posPalavra, int estadoAtual){
+        
+        if( ((posPalavra) == palavraDeEntrada.length()) && (automato.getLista().get(estadoAtual).isIsFinal()) ) {
+            verificacao = true;
+            return;
+        }
+        
+        boolean aux = false;
+        for(int i = 0; i < automato.getLista().get(estadoAtual).getLista().size(); i++){
+            
+            if(automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) == '?' && automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()) == estadoAtual){
+            
+                aux = true;
+                break;
+            }
+            
+        }
+        
+        if( (!aux) && ((posPalavra) == palavraDeEntrada.length()) && (!automato.getLista().get(estadoAtual).isIsFinal()) ){
+            System.out.println("dgf");
+            return;
+        }
+        
+        for(int i = 0; i < automato.getLista().get(estadoAtual).getLista().size(); i++){
+                        
+            if('?' == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0)){
+                
+                if(automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()) == estadoAtual) continue;
+                else verificaRegra(palavraDeEntrada, posPalavra, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
+            }
+            else if(palavraDeEntrada.isEmpty() && automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) != '?'){
+                continue;
+            }
+            else if(palavraDeEntrada.charAt(posPalavra) == automato.getLista().get(estadoAtual).getLista().get(i).getChave().charAt(0) ){
+                
+                verificaRegra(palavraDeEntrada, posPalavra+1, automato.getLista().indexOf(automato.getLista().get(estadoAtual).getLista().get(i).getAlvo()));
+            }
+        }
+    }
+    
+    
 }
