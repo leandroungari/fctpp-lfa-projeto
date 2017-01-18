@@ -40,6 +40,8 @@ public class FXMLEntradaUnicaController implements Initializable {
             saida.setText("");
         });
         
+        saida.setWrapText(true);
+        
         executar.setOnAction(event -> {
             
            GerenciadorGramatica.armazenarGramatica(FXMLPrincipalController.tabelaD);
@@ -49,7 +51,12 @@ public class FXMLEntradaUnicaController implements Initializable {
            
            GerenciadorGramatica.processamentoGramatica(entradaTexto);
            
-           System.out.println(GerenciadorGramatica.verificacao);
+           if(GerenciadorGramatica.verificacao){
+               saida.setText("Aprovado.\nCaminho: " + GerenciadorGramatica.resultadoGramatica);
+           }
+           else{
+               saida.setText("Rejeitado.");
+           }
            
         });
         

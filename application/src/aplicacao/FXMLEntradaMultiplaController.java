@@ -67,18 +67,43 @@ public class FXMLEntradaMultiplaController implements Initializable {
             GerenciadorGramatica.armazenarGramatica(FXMLPrincipalController.tabelaD);
 
             //usar a variavel estrutura da classe GerenciarAutomatos
-            
             Object[] listas = tabela.getItems().toArray();
             LinhaTabela linha;
             ArrayList<String> valoresEntrada = new ArrayList<>();
-            for(int i = 0; i < listas.length; i++){
+            for (int i = 0; i < listas.length; i++) {
                 linha = (LinhaTabela) listas[i];
                 valoresEntrada.add(linha.getNaoTerminal());
             }
-            
-            
+
+            ArrayList<String> resultado = new ArrayList<>();
+
             //o  ArrayList valoresEntrada contém os as strings de entrada
-            
+            for (String s : valoresEntrada) {
+
+                GerenciadorGramatica.processamentoGramatica(s);
+
+                if (GerenciadorGramatica.verificacao == true) {
+                    resultado.add("Aprovado");
+                } else {
+                    resultado.add("Rejeitado");
+                }
+            }
+
+            Object[] vetor = tabela.getItems().toArray();
+
+            LinhaTabela li;
+            for (int i = 0; i < vetor.length; i++) {
+                li = (LinhaTabela) vetor[i];
+                li.setTerminal(resultado.get(i));
+            }
+
+            Object[] t = tabela.getItems().toArray();
+            tabela.getItems().clear();
+            int i;
+            for (i = 0; i < t.length; i++) {
+
+                tabela.getItems().add(t[i]);
+            }
         });
 
     }

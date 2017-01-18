@@ -18,6 +18,10 @@ public class GerenciadorGramatica {
 
     public static boolean verificacao = false;
 
+    public static String resultadoGramatica;
+
+    public static boolean linearDireita;
+
     public void montarGramatica(TableView tabela, Button clear) {
 
         clear.setOnAction(event -> {
@@ -36,12 +40,22 @@ public class GerenciadorGramatica {
         }
 
         LinhaTabela linha;
-
+        boolean verificou = true;
         Object[] o = tabela.getItems().toArray();
         for (Object a : o) {
             linha = (LinhaTabela) a;
 
             if (!linha.getNaoTerminal().isEmpty()) {
+
+                if (verificou && linha.getTerminal().length() == 2) {
+                    verificou = false;
+
+                    if (Character.isLowerCase(linha.getTerminal().charAt(0))) {
+                        linearDireita = true;
+                    } else {
+                        linearDireita = false;
+                    }
+                }
 
                 estrutura[listaNaoTerminais.indexOf(linha.getNaoTerminal())].add(linha.getTerminal());
             }
@@ -86,7 +100,16 @@ public class GerenciadorGramatica {
         //for(int i = 0; i < palavraDeEntrada.length(); i++){
         //caracter = palavraDeEntrada.charAt(0);
         verificacao = false;
-        verificaRegra(palavraDeEntrada, 0, estrutura, 0, palavraDeEntrada.length());
+        resultadoGramatica = "";
+        int inicio;
+        if(linearDireita){
+            inicio = 0;
+        }
+        else{
+            inicio = palavraDeEntrada.length()-1;
+        }
+        
+        verificaRegra(palavraDeEntrada, inicio, estrutura, 0, palavraDeEntrada.length());
         //}
 
     }
@@ -96,46 +119,154 @@ public class GerenciadorGramatica {
         int proxPosI = posI;
         for (int i = 0; i < estrutura[posI].size(); i++) {
 
-            if (posPalavra < posF) {
-                
-                if (estrutura[posI].get(i).charAt(0) == palavraDeEntrada.charAt(posPalavra)) { //Para GLUD
+            if (0 <= posPalavra && posPalavra < posF) {
 
-                    //int aux = 0;
-                    if (estrutura[posI].get(i).length() == 1) {
+                if (linearDireita) { // glud
 
-                        if (posPalavra == posF - 1) {
-                            verificacao = true;
-                            return;
-                        } else {
-                            continue;
+                    if (estrutura[posI].get(i).charAt(0) == palavraDeEntrada.charAt(posPalavra)) {
+
+                        if (estrutura[posI].get(i).length() == 1) {
+
+                            if (posPalavra == posF - 1) {
+                                verificacao = true;
+                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                                if (posPalavra != 0) {
+                                    resultadoGramatica = " -> " + resultadoGramatica;
+                                }
+
+                                return;
+                            } else {
+                                continue;
+                            }
+                        } else { //Se tem tamanho dois tem um não terminal
+                            //aux = 1;
+                            proxPosI = identificaNaoTerminal(estrutura[posI].get(i).charAt(1));
+
+                            verificaRegra(palavraDeEntrada, posPalavra + 1, estrutura, proxPosI, posF);
+
+                            if (verificacao) {
+                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                                if (posPalavra != 0) {
+                                    resultadoGramatica = " -> " + resultadoGramatica;
+                                }
+                                return;
+                            }
                         }
-                    } else { //Se tem tamanho dois tem um não terminal
-                        //aux = 1;
-                        proxPosI = identificaNaoTerminal(estrutura[posI].get(i).charAt(1));
+                    } else {
 
-                        
-                        verificaRegra(palavraDeEntrada, posPalavra+1, estrutura, proxPosI, posF);
-                        
-                        if(verificacao) return;
+                        if (Character.isUpperCase(estrutura[posI].get(i).charAt(0))) {
+
+                            proxPosI = identificaNaoTerminal(estrutura[posI].get(i).charAt(0));
+
+                            verificaRegra(palavraDeEntrada, posPalavra, estrutura, proxPosI, posF);
+
+                            if (verificacao) {
+                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                                if (posPalavra != 0) {
+                                    resultadoGramatica = " -> " + resultadoGramatica;
+                                }
+
+                                return;
+                            }
+                        }
                     }
 
+                } else { //glue
+                    
+                    char t = estrutura[posI].get(i).charAt(estrutura[posI].get(i).length()-1);
+                    if (t == palavraDeEntrada.charAt(posPalavra)) {
+
+                        if (estrutura[posI].get(i).length() == 1) {
+
+                            if (posPalavra == 0) {
+                                verificacao = true;
+                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                                if (posPalavra != posF-1) {
+                                    resultadoGramatica = " -> " + resultadoGramatica;
+                                }
+
+                                return;
+                            } else {
+                                continue;
+                            }
+                        } else { //Se tem tamanho dois tem um não terminal
+                            //aux = 1;
+                            proxPosI = identificaNaoTerminal(estrutura[posI].get(i).charAt(0));
+
+                            verificaRegra(palavraDeEntrada, posPalavra - 1, estrutura, proxPosI, posF);
+
+                            if (verificacao) {
+                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                                if (posPalavra != posF-1) {
+                                    resultadoGramatica = " -> " + resultadoGramatica;
+                                }
+                                return;
+                            }
+                        }
+                    } else {
+
+                        if (estrutura[posI].get(i).length() == 1 && Character.isUpperCase(estrutura[posI].get(i).charAt(0))) {
+
+                            proxPosI = identificaNaoTerminal(estrutura[posI].get(i).charAt(0));
+
+                            verificaRegra(palavraDeEntrada, posPalavra, estrutura, proxPosI, posF);
+
+                            if (verificacao) {
+                                resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                                if (posPalavra != posF-1) {
+                                    resultadoGramatica = " -> " + resultadoGramatica;
+                                }
+
+                                return;
+                            }
+                        }
+                    }
+   
                 }
                 //else break;
-            }
-            else{
-                
-                if(estrutura[posI].get(i).charAt(0) == 'λ') {
+            } else {
+
+                if (Character.isUpperCase(estrutura[posI].get(i).charAt(0)) && estrutura[posI].get(i).length() == 1) {
+                    
+                    proxPosI = identificaNaoTerminal(estrutura[posI].get(i).charAt(0));
+
+                    verificaRegra(palavraDeEntrada, posPalavra, estrutura, proxPosI, posF);
+
+                    if (verificacao) {
+                        resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                        if (posPalavra != 0 || posPalavra != posF-1) {
+                            resultadoGramatica = " -> " + resultadoGramatica;
+                        }
+                        return;
+                    }
+                    
+                } else if (estrutura[posI].get(i).charAt(0) == 'λ') {
                     verificacao = true;
-                    return;
+                    
+                    if (verificacao) {
+                        resultadoGramatica = estrutura[posI].get(i) + resultadoGramatica;
+
+                        if (posPalavra != 0 || posPalavra != posF-1) {
+                            resultadoGramatica = " -> " + resultadoGramatica;
+                        }
+                        return;
+                    }
+                    
                 }
-                
+
             }
 
         }
 
         //Não bateu a string, não conseguiu percorrer as regras, pois não bateu o padrão de entrada
         //if(verificacao != true) verificacao = false;
-
     }
 
     //Identifca o não terminal que entrara na proxima chamada da recursão, retornado sua posição no array estrutura.
