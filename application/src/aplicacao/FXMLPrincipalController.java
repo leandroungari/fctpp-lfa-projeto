@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -126,10 +125,68 @@ public class FXMLPrincipalController implements Initializable {
     public static ConcurrentLinkedQueue<Aresta> arestas = new ConcurrentLinkedQueue<>();
     public static ArrayList<Legenda> legendas = new ArrayList<>();
     public static Estado estado;
+    
+    ////////////////
+    // Conversão
+    
+    @FXML 
+    private MenuItem convexpauto;
+    
+    @FXML 
+    private MenuItem convautoexp;
+    
+    @FXML 
+    private MenuItem convautogram;
+    
+    @FXML 
+    private MenuItem convgramauto;
+    
+    @FXML 
+    private MenuItem auto;
+    
+    @FXML 
+    private MenuItem mealy;
+    
+    @FXML 
+    private MenuItem moore;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+        convexpauto.setOnAction(event -> {
+            
+            GerenciadorConversao.converterExpressaoAutomato(regraTextField);
+        });
+        
+        convautogram.setOnAction(event -> {
+            
+            GerenciadorConversao.converterAutomatoGramatica();
+        });
+        
+        convautoexp.setOnAction(event -> {
+            GerenciadorConversao.converterAutomatoExpressao();
+        });
+        
+        convgramauto.setOnAction(event -> {
+            GerenciadorConversao.converterGramaticaAutomato();
+        });
+        
+        auto.setOnAction(event -> {
+        
+        });
+        
+        mealy.setOnAction(event -> {
+        
+        
+        });
+        
+        moore.setOnAction(event -> {
+        
+        
+        
+        });
+        
         painelD = painelDesenho;
         tabelaD = table;
 

@@ -37,22 +37,27 @@
                <items>
                   <Menu mnemonicParsing="false" text="Expressão Regular">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Autômato Finito" />
-                        <MenuItem mnemonicParsing="false" text="Gramática Regular" />
+                      <MenuItem fx:id="convexpauto" mnemonicParsing="false" text="Autômato Finito" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Autômato Finito">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Expressão Regular" />
-                        <MenuItem mnemonicParsing="false" text="Gramática Regular" />
+                        <MenuItem fx:id="convautoexp" mnemonicParsing="false" text="Expressão Regular" />
+                        <MenuItem fx:id="convautogram" mnemonicParsing="false" text="Gramática Regular" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Gramática Regular">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Expressão Regular" />
-                        <MenuItem mnemonicParsing="false" text="Autômato Finito" />
+                        <MenuItem fx:id="convgramauto" mnemonicParsing="false" text="Autômato Finito" />
                      </items>
                   </Menu>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Máquinas">
+               <items>
+                  <MenuItem fx:id="auto" mnemonicParsing="false" text="Autômato Finito" />
+                  <MenuItem fx:id="mealy" mnemonicParsing="false" text="Máquina Mealy" />
+                  <MenuItem fx:id="moore" mnemonicParsing="false" text="Máquina Moore" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">
