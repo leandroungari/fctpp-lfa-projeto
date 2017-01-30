@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -100,6 +101,14 @@ public class FXMLPrincipalController implements Initializable {
     private Label stringNaoTerminal;
     @FXML
     private Label stringTerminal;
+    
+    
+    ////////////////////////////////////
+    
+    @FXML
+    private MenuItem abrirAutomato;
+    @FXML
+    private MenuItem salvarAutomato;
 
     ////////////////////////////////////
     //Itens gerais
@@ -294,6 +303,16 @@ public class FXMLPrincipalController implements Initializable {
             stage.initStyle(StageStyle.DECORATED);
             stage.showAndWait();
 
+        });
+        
+        
+        abrirAutomato.setOnAction(event -> {
+            GerenciadorAutomatos.abrirArquivo();
+        });
+        
+        salvarAutomato.setOnAction(event -> {
+        
+            GerenciadorAutomatos.salvarArquivo();
         });
     }
 

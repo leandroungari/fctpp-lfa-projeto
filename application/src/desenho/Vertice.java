@@ -31,7 +31,7 @@ public class Vertice extends Circle {
     private int ID;
     private boolean selected = false;
     private boolean isInitial = false;
-    private boolean hasSubtitle = false;
+    public boolean hasSubtitle = false;
     public Text numero;
     public Polygon inicio;
     public Legenda legenda;

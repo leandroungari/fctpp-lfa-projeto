@@ -15,6 +15,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="Arquivo">
             <items>
+                  <MenuItem fx:id="abrirAutomato" mnemonicParsing="false" text="Abrir Autômato" />
+                  <MenuItem fx:id="salvarAutomato" mnemonicParsing="false" text="Salvar Autômato" />
               <MenuItem mnemonicParsing="false" text="Sair" />
             </items>
           </Menu>
@@ -31,6 +33,28 @@
                   <MenuItem fx:id="entradaMultipla" mnemonicParsing="false" text="Entrada Multipla" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Conversão">
+               <items>
+                  <Menu mnemonicParsing="false" text="Expressão Regular">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Autômato Finito" />
+                        <MenuItem mnemonicParsing="false" text="Gramática Regular" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Autômato Finito">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Expressão Regular" />
+                        <MenuItem mnemonicParsing="false" text="Gramática Regular" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Gramática Regular">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Expressão Regular" />
+                        <MenuItem mnemonicParsing="false" text="Autômato Finito" />
+                     </items>
+                  </Menu>
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">
                <items>
                   <MenuItem mnemonicParsing="false" text="Sobre" />
