@@ -28,5 +28,31 @@ public class Automato {
         this.inicial = inicial;
     }
     
+    public void addEstado(int id, float x, float y, boolean isFinal){
+        
+        for(Estados e: lista){
+            if(e.getValor() == id) return;
+        }
+        
+        Estados est = new Estados(id, isFinal);
+        est.setAutomato(this);
+        est.setX(x);
+        est.setY(y);
+        lista.add(est);
+    }
+    
+    public Estados get(int id) throws Exception{
+        
+        for(Estados e: lista){
+            if (e.getValor() == id) return e;
+        }
+        
+        throw new Exception("Doesn't exist this element ID!");
+    }
+    
+    public void setInicial(int id) throws Exception{
+        
+        this.inicial = this.get(id);
+    }
     
 }

@@ -27,6 +27,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -101,6 +103,11 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     private Label stringTerminal;
     
+    @FXML
+    private Tab tabauto;
+    @FXML
+    private TabPane conjuntoTab;
+    
     
     ////////////////////////////////////
     
@@ -116,6 +123,8 @@ public class FXMLPrincipalController implements Initializable {
     public static Text textoAtual;
     public static Pane painelD;
     public static TableView tabelaD;
+    public static Tab tabautoD;
+    public static TabPane conjunto;
 
     public static Vertice verticeInicial;
     public static Vertice verticeFinal;
@@ -189,6 +198,8 @@ public class FXMLPrincipalController implements Initializable {
         
         painelD = painelDesenho;
         tabelaD = table;
+        tabautoD = tabauto;
+        conjunto = conjuntoTab;
 
         //Executar automatos
         GerenciadorAutomatos g = new GerenciadorAutomatos();
@@ -365,6 +376,7 @@ public class FXMLPrincipalController implements Initializable {
         
         abrirAutomato.setOnAction(event -> {
             GerenciadorAutomatos.abrirArquivo();
+            GerenciadorAutomatos.desenhar();
         });
         
         salvarAutomato.setOnAction(event -> {

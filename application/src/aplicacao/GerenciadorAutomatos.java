@@ -8,7 +8,6 @@ package aplicacao;
 import static aplicacao.FXMLPrincipalController.legendaAtual;
 import static aplicacao.FXMLPrincipalController.verticeAtual;
 import static aplicacao.FXMLPrincipalController.textoAtual;
-import desenho.Arco;
 import desenho.Aresta;
 import desenho.Desenho;
 import desenho.Legenda;
@@ -18,8 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Button;
@@ -28,9 +26,16 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.QuadCurve;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class GerenciadorAutomatos {
 
@@ -376,182 +381,55 @@ public class GerenciadorAutomatos {
 
     public static String salvarAutomato() {
 
-        String tipo = "";
-        armazenarAutomato();
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!--Created with JFLAP 6.4.--><structure>&#13;\n"
+                + "\t<type>fa</type>&#13;\n\t<automaton>&#13;\n"
+                + "\t\t<!--The list of states.-->&#13;\n";
 
-        //verifica se é um afs, moore ou mealy
-        switch (tipoAutomato) {
-
-            case 0:
-                tipo = "fsa";
-                break;
-
-            case 1:
-                tipo = "moore_machine";
-                break;
-
-            case 2:
-                tipo = "mealy_machine";
-                break;
-        }
-
-        //////////////////////////////////////////////
-        String conjuntoEstados = "\t\t\t<structure type=\"state_set\">&#13;\n";
-        String conjuntoInicial = "\t\t\t<structure type=\"start_state\">&#13;\n"
-                + "\t\t\t\t<state>&#13;\n"
-                + "\t\t\t\t<name>q" + automato.getInicial().getValor() + "</name>&#13;\n"
-                + "\t\t\t\t<id>" + automato.getInicial().getValor() + "</id>&#13;\n"
-                + "\t\t\t\t</state>&#13;\n"
-                + "\t\t\t</structure>&#13;\n";
-        String conjuntoFinais = "\t\t\t<structure type=\"final_states\">&#13;\n";
-        String conjuntoTransicoes = "\t\t\t<structure type=\"transition_set\">&#13;\n";
-        String lista = "\t\t\t<structure type=\"input_alph\">&#13;\n";
-        String aux = "";
-
-        HashMap<String, Integer> listaTransicoes = new HashMap<>();
-
-        for (Estados a : automato.getLista()) {
-            aux = "\t\t\t\t<state>&#13;\n"
-                    + "\t\t\t\t\t<name>q" + a.getValor() + "</name>&#13;\n"
-                    + "\t\t\t\t\t<id>" + a.getValor() + "</id>&#13;\n"
-                    + "\t\t\t\t</state>&#13;\n";
-
-            conjuntoEstados += aux;
-            if (a.isIsFinal()) {
-                conjuntoFinais += aux;
-            }
-            
-            String chave;
-            
-            for (Transicao t : a.getLista()) {
-
-                listaTransicoes.put(t.getChave(), 1);
-                
-                if (t.getChave().equals("λ")){
-                    chave = "\t\t\t\t\t<input/>&#13;\n";
-                }
-                else{
-                    chave = "\t\t\t\t\t<input>" + t.getChave() + "</input>&#13;\n";
-                }
-                
-                conjuntoTransicoes += "\t\t\t\t<fsa_trans>&#13;\n"
-                        + chave
-                        + "\t\t\t\t\t<from>&#13;\n"
-                        + "\t\t\t\t\t\t<name>q" + a.getValor() + "</name>&#13;\n"
-                        + "\t\t\t\t\t\t<id>" + a.getValor() + "</id>&#13;\n"
-                        + "\t\t\t\t\t</from>&#13;\n"
-                        + "\t\t\t\t\t<to>&#13;\n"
-                        + "\t\t\t\t\t\t<name>q" + t.getAlvo().getValor() + "</name>&#13;\n"
-                        + "\t\t\t\t\t\t<id>" + t.getAlvo().getValor() + "</id>&#13;\n"
-                        + "\t\t\t\t\t</to>&#13;\n"
-                        + "\t\t\t\t</fsa_trans>&#13;\n";
-            }
-        }
-
-        for (String s : listaTransicoes.keySet()) {
-            if (!s.equals("λ")) lista += "\t\t\t\t<symbol>" + s + "</symbol>&#13;\n";
-        }
-
-        conjuntoEstados += "\t\t\t</structure>&#13;\n";
-        conjuntoFinais += "\t\t\t</structure>&#13;\n";
-        conjuntoTransicoes += "\t\t\t</structure>&#13;\n";
-        lista += "\t\t\t</structure>&#13;\n";
-        String fim = "\t\t</structure>&#13;\n";
-
-        String mapeamentoPontos = "\t\t<state_point_map>&#13;\n";
-
-        String estadoLabel = "\t<state_label_map>&#13;\n";
-        
-    
-        
         for (Vertice v : FXMLPrincipalController.lista) {
-            
-            mapeamentoPontos += "\t\t\t<state_point>&#13;\n"
-                    + "\t\t\t\t<state>" + v.getID() + "</state>&#13;\n"
-                    + "\t\t\t\t<point>&#13;\n"
-                    + "\t\t\t\t\t<x>" + String.format(Locale.US, "%.1f", v.getCenterX()) + "</x>&#13;\n"
-                    + "\t\t\t\t\t<y>" + String.format(Locale.US, "%.1f", v.getCenterY()) + "</y>&#13;\n"
-                    + "\t\t\t\t</point>&#13;\n"
-                    + "\t\t\t</state_point>&#13;\n";
 
-            if (v.hasSubtitle) {
+            xml += "\t\t<state id=\"" + v.getID() + "\" name=\"q" + v.getID() + "\">&#13;\n"
+                    + "\t\t\t<x>" + v.getCenterX() + "</x>&#13;\n"
+                    + "\t\t\t<y>" + v.getCenterY() + "</y>&#13;\n";
 
-                estadoLabel += "\t\t<note>&#13;\n"
-                        + "\t\t\t<value>" + v.legenda.get().getText() + "</value>&#13;\n"
-                        + "\t\t\t<point>&#13;\n"
-                        + "\t\t\t\t<x>" + v.legenda.get().getLayoutX() + "</x>&#13;\n"
-                        + "\t\t\t\t<y>" + v.legenda.get().getLayoutY() + "</y>&#13;\n"
-                        + "\t\t\t</point>&#13;\n"
-                        + "\t\t</note>&#13;\n";
+            if (v.isIsInitial()) {
+                xml += "\t\t\t<initial/>&#13;\n";
             }
+            if (v.isSelected()) {
+                xml += "\t\t\t<final/>&#13;\n";
+            }
+            xml += "\t\t</state>&#13;\n";
         }
 
-        mapeamentoPontos += "\t\t</state_point_map>&#13;\n";
-        estadoLabel += "\t</state_label_map>&#13;\n";
-
-        String noteMap = "\t<note_map>&#13;\n";
-
-        for (Legenda l : FXMLPrincipalController.legendas) {
-            noteMap += "\t\t<note>&#13;\n"
-                    + "\t\t\t<value>" + l.get().getText() + "</value>&#13;\n"
-                    + "\t\t\t<point>&#13;\n"
-                    + "\t\t\t\t<x>" + l.get().getLayoutX() + "</x>&#13;\n"
-                    + "\t\t\t\t<y>" + l.get().getLayoutY() + "</y>&#13;\n"
-                    + "\t\t\t</point>&#13;\n"
-                    + "\t\t</note>&#13;\n";
-        }
-
-        noteMap += "\t</note_map>&#13;\n";
-        ///////////////////////////////////////////////
-
-        String controlePontos = "\t\t<control_point_map>&#13;\n";
-
+        xml += "\t\t<!--The list of transitions.-->&#13;\n";
+        String transicao = "", valor = "";
+        int origem, destino;
         for (Aresta a : FXMLPrincipalController.arestas) {
 
-            if (a.getOrigem() != a.getDestino()) {
-                
-                Arco b = (Arco) a;
-                QuadCurve f = (QuadCurve) b.getForma();
-                controlePontos += "\t\t\t<control_point>&#13;\n"
-                        + "\t\t\t\t<from>" + b.getOrigem() + "</from>&#13;\n"
-                        + "\t\t\t\t<to>" + b.getDestino() + "</to>&#13;\n"
-                        + "\t\t\t\t<point>&#13;\n"
-                        + "\t\t\t\t\t<x>" + String.format(Locale.US, "%.1f", f.getControlX()) + "</x>&#13;\n"
-                        + "\t\t\t\t\t<y>" + String.format(Locale.US, "%.1f", f.getControlY()) + "</y>&#13;\n"
-                        + "\t\t\t\t</point>&#13;\n"
-                        + "\t\t\t</control_point>&#13;\n";
-                
+            if (a.getOrigem() == a.getDestino()) {
+                destino = origem = a.getDestino();
+                valor = a.getTexto();
+
             } else {
-                controlePontos += "\t\t\t<control_point>&#13;\n"
-                        + "\t\t\t\t<from>" + a.getOrigem() + "</from>&#13;\n"
-                        + "\t\t\t\t<to>" + a.getDestino() + "</to>&#13;\n"
-                        + "\t\t\t\t<point>&#13;\n"
-                        + "\t\t\t\t\t<x>" + a.getOrigemVertice().getCenterX() + "</x>&#13;\n"
-                        + "\t\t\t\t\t<y>" + (a.getOrigemVertice().getCenterY() - 23) + "</y>&#13;\n"
-                        + "\t\t\t\t</point>&#13;\n"
-                        + "\t\t\t</control_point>&#13;\n";
+                origem = a.getOrigem();
+                destino = a.getDestino();
+                valor = a.getTexto();
             }
+
+            if (!a.getTexto().equals("λ")) {
+                transicao = "<read>" + valor + "</read>";
+            } else {
+                transicao = "<read/>";
+            }
+
+            xml += "\t\t<transition>&#13;\n"
+                    + "\t\t\t<from>" + origem + "</from>&#13;\n"
+                    + "\t\t\t<to>" + destino + "</to>&#13;\n"
+                    + "\t\t\t" + transicao + "&#13;\n"
+                    + "\t\t</transition>&#13;\n";
         }
 
-        controlePontos += "\t\t</control_point_map>&#13;\n";
-        //////////////////////////////////////
-
-        //////////////////////////////////////
-        String xml = "";
-        xml += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<structure type=\"editor_panel\">&#13;\n"
-                + "\t<structure type=\"transition_graph\">&#13;\n"
-                + "\t\t<structure mode=\"Default mode\" type=\"" + tipo + "\">&#13;\n";
-
-        if (tipoAutomato == 0) {
-            xml += conjuntoEstados + conjuntoFinais + conjuntoTransicoes + conjuntoInicial + lista
-                    + "\t\t</structure>&#13;\n" + mapeamentoPontos + controlePontos + "\t</structure>&#13;\n"
-                    + estadoLabel + noteMap + "</structure>";
-        } else if (tipoAutomato == 1) {
-
-        } else {
-
-        }
+        xml += "\t</automaton>&#13;\n"
+                + "</structure>";
 
         return xml;
     }
@@ -561,9 +439,9 @@ public class GerenciadorAutomatos {
         String xml = salvarAutomato();
 
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Salvar Autômato");
+        chooser.setTitle("Salvar Autômato Finito");
         chooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Arquivo do JFLAP 8", "*.jflap")
+                new ExtensionFilter("Arquivo do JFLAP 7", "*.jff")
         );
 
         File file = chooser.showSaveDialog(null);
@@ -573,22 +451,171 @@ public class GerenciadorAutomatos {
 
                 file.delete();
                 file.createNewFile();
-
             }
 
             if (file != null) {
 
                 PrintStream out = new PrintStream(file);
                 out.print(xml);
+                out.close();
             }
-            
+
         } catch (IOException e) {
-            
+
             System.out.println(e.getMessage());
         }
     }
-    
-    public static void abrirArquivo(){
+
+    public static void abrirArquivo() {
+
+        Automato auto = new Automato();
+
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Abrir Autômato Finito");
+        chooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Arquivo do JFLAP 7", "*.jff")
+        );
+
+        File file = chooser.showOpenDialog(null);
+
+        if (file == null) {
+            return;
+        }
+        String xml = "";
+
+        Scanner arquivo = null;
+        try {
+            arquivo = new Scanner(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GerenciadorAutomatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        while (arquivo.hasNext()) {
+            xml += arquivo.nextLine();
+        }
+
+        xml = xml.replaceAll("&#13;", "");
+        xml = xml.replaceAll("\\t", "");
         
+
+        try {
+
+            File temp = File.createTempFile("~temp", ".xml");
+
+            PrintStream out = new PrintStream(temp);
+            out.print(xml);
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+            Document doc = builder.parse(temp);
+            doc.getDocumentElement().normalize();
+
+            //State
+            int id;
+            float x, y;
+            boolean isFinal, isInitial;
+            NodeList listaEstados = doc.getElementsByTagName("state");
+
+            for (int i = 0; i < listaEstados.getLength(); i++) {
+                Node node = listaEstados.item(i);
+                isFinal = isInitial = false;
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element e = (Element) node;
+                    id = Integer.parseInt(e.getAttribute("id"));
+
+                    x = Float.parseFloat(((Element) e.getElementsByTagName("x").item(0)).getTextContent());
+                    y = Float.parseFloat(((Element) e.getElementsByTagName("y").item(0)).getTextContent());
+
+                    if (e.getElementsByTagName("final").getLength() == 1) {
+                        isFinal = true;
+                    }
+                    
+                    auto.addEstado(id, x, y, isFinal);
+                    
+                    if (e.getElementsByTagName("initial").getLength() == 1) {
+                        isInitial = true;
+                        auto.setInicial(id);
+                    }
+
+                    
+                }
+            }
+
+            //Transition
+            int inicio, fim;
+            String letra;
+            NodeList listaTransicoes = doc.getElementsByTagName("transition");
+            for (int i = 0; i < listaTransicoes.getLength(); i++) {
+
+                Node node = listaTransicoes.item(i);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element e = (Element) node;
+                    inicio = Integer.parseInt(((Element) e.getElementsByTagName("from").item(0)).getTextContent());
+                    fim = Integer.parseInt(((Element) e.getElementsByTagName("to").item(0)).getTextContent());
+                    letra = ((Element) e.getElementsByTagName("read").item(0)).getTextContent();
+                    auto.get(inicio).addTransicao(fim, letra);
+                }
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Logger.getLogger(GerenciadorAutomatos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GerenciadorAutomatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        GerenciadorAutomatos.automato = auto;
+
+    }
+
+    public static void desenhar() {
+
+        FXMLPrincipalController.painelD.getChildren().clear();
+
+        Vertice v, origem = null, destino;
+
+        for (Estados est : automato.getLista()) {
+
+            v = new Vertice(est.getValor(), est.getX(), est.getY(), 20);
+            Desenho.desenharVertice(FXMLPrincipalController.painelD, v);
+            FXMLPrincipalController.lista.add(v);
+            
+            if (est == automato.getInicial()) {
+                v.inicio.setLayoutX(v.getCenterX() - 35);
+                v.inicio.setLayoutY(v.getCenterY() - 15);
+                FXMLPrincipalController.painelD.getChildren().add(v.inicio);
+            }
+        }
+
+        for (Estados est : automato.getLista()) {
+
+            for (Vertice vertice : FXMLPrincipalController.lista) {
+                if (est.getValor() == vertice.getID()) {
+                    origem = vertice;
+                    break;
+                }
+            }
+            String chave = "";
+            for (Transicao t : est.getLista()) {
+                
+                for(Vertice a: FXMLPrincipalController.lista){
+                    
+                    if (a.getID() == t.getAlvo().getValor()) {
+                        destino = a;
+                        
+                        if (t.getChave().isEmpty()) {
+                            chave = "λ";
+                        }
+                        else chave = t.getChave();
+                        
+                        Desenho.desenharAresta(FXMLPrincipalController.painelD, origem, destino, chave);
+                        break;
+                    }
+                }
+            }
+            
+            FXMLPrincipalController.conjunto.getSelectionModel().select(FXMLPrincipalController.tabautoD);
+        }
     }
 }

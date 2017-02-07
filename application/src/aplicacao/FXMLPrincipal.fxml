@@ -67,9 +67,9 @@
             </Menu>
         </menus>
       </MenuBar>
-      <TabPane layoutX="6.0" layoutY="25.0" prefHeight="382.0" prefWidth="718.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <TabPane fx:id="conjuntoTab" layoutX="6.0" layoutY="25.0" prefHeight="382.0" prefWidth="718.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
         <tabs>
-          <Tab text="Expressões Regulares">
+          <Tab fx:id="tabexp" text="Expressões Regulares">
                <content>
                    
                </content>
@@ -90,7 +90,7 @@
                      </children>
                   </Pane>
                </content></Tab>
-          <Tab text="Autômatos Finitos">
+          <Tab fx:id="tabauto" text="Autômatos Finitos">
                <content>
                   <GridPane>
                     <columnConstraints>
@@ -114,7 +114,7 @@
                      </children>
                   </GridPane>
                </content></Tab>
-            <Tab text="Gramática">
+            <Tab fx:id="tabgram" text="Gramática">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
