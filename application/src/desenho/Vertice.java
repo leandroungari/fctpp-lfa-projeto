@@ -35,12 +35,21 @@ public class Vertice extends Circle {
     public Text numero;
     public Polygon inicio;
     public Legenda legenda;
+    public Legenda adesivo;
+    public String adesivoTexto;
 
     private final ContextMenu contextMenu = new ContextMenu();
 
     public Vertice(int id, double x, double y, double raio) {
 
         super(x, y, raio);
+        adesivo = new Legenda(x + 15, y - 30);
+        adesivoTexto = "λ";
+
+        adesivo.get().setOnMousePressed(event -> {
+
+            FXMLPrincipalController.adesivoAtual = adesivo;
+        });
         this.ID = id;
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(1);
@@ -57,6 +66,11 @@ public class Vertice extends Circle {
 
         MenuItem remover = new MenuItem("Remover");
         remover.setOnAction(event -> {
+            
+            if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MOORE) {
+                FXMLPrincipalController.painelD.getChildren().remove(this.adesivo.get());
+            }
+            
             FXMLPrincipalController.painelD.getChildren().remove(this.numero);
             FXMLPrincipalController.painelD.getChildren().remove(this.inicio);
             FXMLPrincipalController.painelD.getChildren().remove(this);
@@ -121,21 +135,21 @@ public class Vertice extends Circle {
         inicio.setOnAction(event -> {
 
             if (!isInitial) {
-                
-                for(Vertice v: FXMLPrincipalController.lista){
-                    if(v.isIsInitial()){
-                        
+
+                for (Vertice v : FXMLPrincipalController.lista) {
+                    if (v.isIsInitial()) {
+
                         v.setIsInitial(false);
                         FXMLPrincipalController.painelD.getChildren().remove(v.inicio);
                     }
                 }
-                
+
                 this.inicio.setLayoutX(this.getCenterX() - 35);
                 this.inicio.setLayoutY(this.getCenterY() - 15);
                 FXMLPrincipalController.painelD.getChildren().add(this.inicio);
 
                 isInitial = true;
-                
+
             } else {
                 FXMLPrincipalController.painelD.getChildren().remove(this.inicio);
             }
@@ -154,7 +168,11 @@ public class Vertice extends Circle {
             event.consume();
         });
 
-        contextMenu.getItems().addAll(remover, new SeparatorMenuItem(), legenda, new SeparatorMenuItem(), inicio, fim);
+        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_AUTOMATO_FINITE) {
+            contextMenu.getItems().addAll(remover, new SeparatorMenuItem(), legenda, new SeparatorMenuItem(), inicio, fim);
+        } else {
+            contextMenu.getItems().addAll(remover, new SeparatorMenuItem(), legenda, new SeparatorMenuItem(), inicio);
+        }
 
         this.setOnMouseEntered(event -> {
 
@@ -364,6 +382,12 @@ public class Vertice extends Circle {
             this.legenda.setLayout(this.getCenterX() - 35, this.getCenterY() + 17);
         }
 
+        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MOORE) {
+
+            this.adesivo.get().setLayoutX(x + 15);
+            this.adesivo.get().setLayoutY(y - 30);
+        }
+
         for (Aresta a : FXMLPrincipalController.arestas) {
 
             if (this == a.getOrigemVertice()) {
@@ -386,29 +410,57 @@ public class Vertice extends Circle {
     public void opacidade(double value) {
         this.setOpacity(value);
     }
-
+    
+    
+    
     public static void criarAresta(Vertice inicio, Vertice fim) {
 
         TextField entrada = new TextField();
         double xP = (inicio.getCenterX() + fim.getCenterX()) / 2;
         double yP = (inicio.getCenterY() + fim.getCenterY()) / 2;
-        entrada.setLayoutX(xP);
+        entrada.setLayoutX(xP-40);
         entrada.setLayoutY(yP);
         entrada.setPrefSize(50, 13);
         entrada.setText("λ");
-        entrada.setOnKeyReleased(e -> {
 
-            if (e.getCode() == KeyCode.ENTER) {
-                if (!entrada.getText().isEmpty()) {
+        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_AUTOMATO_FINITE) {
+            entrada.setOnKeyReleased(e -> {
 
-                    Desenho.desenharAresta(FXMLPrincipalController.painelD, inicio, fim, entrada.getText());
+                if (e.getCode() == KeyCode.ENTER) {
+                    if (!entrada.getText().isEmpty()) {
+                        Desenho.desenharAresta(FXMLPrincipalController.painelD, inicio, fim, entrada.getText());
+                    }
+                    FXMLPrincipalController.painelD.getChildren().remove(entrada);
                 }
-
-                FXMLPrincipalController.painelD.getChildren().remove(entrada);
-            }
-        });
+            });
+        }
 
         Desenho.desenharCampo(FXMLPrincipalController.painelD, entrada);
+
+        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MEALY) {
+
+            TextField saida = new TextField();
+            double x = (inicio.getCenterX() + fim.getCenterX()) / 2;
+            double y = (inicio.getCenterY() + fim.getCenterY()) / 2;
+            saida.setLayoutX(x + 11);
+            saida.setLayoutY(y);
+            saida.setPrefSize(50, 13);
+            saida.setText("λ");
+            
+            saida.setOnKeyReleased(e -> {
+
+                if (e.getCode() == KeyCode.ENTER) {
+                    if (! (entrada.getText().isEmpty() || saida.getText().isEmpty()) ) {
+                        Desenho.desenharAresta(FXMLPrincipalController.painelD, inicio, fim, entrada.getText() + " : " + saida.getText());
+                    }
+                    FXMLPrincipalController.painelD.getChildren().remove(entrada);
+                    FXMLPrincipalController.painelD.getChildren().remove(saida);
+                }
+                
+            });
+            
+            Desenho.desenharCampo(FXMLPrincipalController.painelD, saida);
+        }
 
     }
 }

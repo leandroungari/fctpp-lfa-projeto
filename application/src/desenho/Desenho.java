@@ -6,7 +6,9 @@
 package desenho;
 
 import aplicacao.FXMLPrincipalController;
+import java.util.Optional;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -25,6 +27,10 @@ public class Desenho {
 
         pane.getChildren().add(shape);
         pane.getChildren().add(shape.numero);
+        
+        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MOORE) {
+            pane.getChildren().add(shape.adesivo.get());
+        }
     }
 
     public static void desenharCampo(Pane pane, TextField text) {
@@ -55,6 +61,11 @@ public class Desenho {
             pane.getChildren().add(aresta.getForma());
             pane.getChildren().add(aresta.labelTexto);
             aresta.getForma().toBack();
+            
+            if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MEALY) {
+                aresta.setEntrada(String.valueOf(texto.charAt(0)));
+                aresta.setSaida(String.valueOf(texto.charAt(texto.length() - 1)));
+            }
 
         } else {
 

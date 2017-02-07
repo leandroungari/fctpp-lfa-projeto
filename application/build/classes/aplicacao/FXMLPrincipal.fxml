@@ -55,9 +55,9 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Máquinas">
                <items>
-                  <MenuItem fx:id="auto" mnemonicParsing="false" text="Autômato Finito" />
-                  <MenuItem fx:id="mealy" mnemonicParsing="false" text="Máquina Mealy" />
-                  <MenuItem fx:id="moore" mnemonicParsing="false" text="Máquina Moore" />
+                  <CheckMenuItem fx:id="auto" mnemonicParsing="false" text="Autômato Finito" />
+                  <CheckMenuItem fx:id="mealy" mnemonicParsing="false" text="Máquina Mealy" />
+                  <CheckMenuItem fx:id="moore" mnemonicParsing="false" text="Máquina Moore" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">

@@ -5,6 +5,7 @@
  */
 package aplicacao;
 
+import static aplicacao.FXMLPrincipalController.adesivoAtual;
 import static aplicacao.FXMLPrincipalController.legendaAtual;
 import static aplicacao.FXMLPrincipalController.verticeAtual;
 import static aplicacao.FXMLPrincipalController.textoAtual;
@@ -17,11 +18,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -39,7 +42,7 @@ import org.xml.sax.SAXException;
 
 public class GerenciadorAutomatos {
 
-    public int quantidade = 0;
+    public static int quantidade = 0;
     private Vertice inicio;
     private Vertice fim;
     public static boolean subtitleNode = false;
@@ -129,6 +132,31 @@ public class GerenciadorAutomatos {
 
                         Vertice v = new Vertice(quantidade++, x, y, 20);
 
+                        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MOORE) {
+
+                            TextInputDialog dialog = new TextInputDialog("");
+                            dialog.setTitle("Saída do Estado");
+                            dialog.setHeaderText("Insira a saída do texto");
+                            dialog.setContentText("Entre com a saída do estado:");
+
+                            String name;
+                            Optional<String> result = dialog.showAndWait();
+                            if (result.isPresent()) {
+                                
+                                name = result.get();
+                                if (name.isEmpty()) {
+                                    v.adesivo.setText("λ");
+                                    v.adesivoTexto = "λ";
+                                } else {
+                                    v.adesivo.setText(name);
+                                    v.adesivoTexto = name;
+                                }
+
+                            } else {
+                                return;
+                            }
+                        }
+
                         lista.add(v);
                         Desenho.desenharVertice(painelDesenho, v);
                     }
@@ -192,7 +220,14 @@ public class GerenciadorAutomatos {
                         textoAtual.setLayoutX(event.getX());
                         textoAtual.setLayoutY(event.getY());
                     }
-
+                    
+                    if (adesivoAtual != null) {
+                        
+                        adesivoAtual.setLayout(event.getX(), event.getY());
+                        verticeAtual.setCenterX(event.getX() - 15);
+                        verticeAtual.setCenterY(event.getY() + 30);
+                        verticeAtual.corrigir(event.getX() -15 , event.getY()+30);
+                    }
                     break;
 
                 case INSERIR_CURSOR:
@@ -496,7 +531,6 @@ public class GerenciadorAutomatos {
 
         xml = xml.replaceAll("&#13;", "");
         xml = xml.replaceAll("\\t", "");
-        
 
         try {
 
@@ -529,15 +563,14 @@ public class GerenciadorAutomatos {
                     if (e.getElementsByTagName("final").getLength() == 1) {
                         isFinal = true;
                     }
-                    
+
                     auto.addEstado(id, x, y, isFinal);
-                    
+
                     if (e.getElementsByTagName("initial").getLength() == 1) {
                         isInitial = true;
                         auto.setInicial(id);
                     }
 
-                    
                 }
             }
 
@@ -580,7 +613,7 @@ public class GerenciadorAutomatos {
             v = new Vertice(est.getValor(), est.getX(), est.getY(), 20);
             Desenho.desenharVertice(FXMLPrincipalController.painelD, v);
             FXMLPrincipalController.lista.add(v);
-            
+
             if (est == automato.getInicial()) {
                 v.inicio.setLayoutX(v.getCenterX() - 35);
                 v.inicio.setLayoutY(v.getCenterY() - 15);
@@ -598,23 +631,24 @@ public class GerenciadorAutomatos {
             }
             String chave = "";
             for (Transicao t : est.getLista()) {
-                
-                for(Vertice a: FXMLPrincipalController.lista){
-                    
+
+                for (Vertice a : FXMLPrincipalController.lista) {
+
                     if (a.getID() == t.getAlvo().getValor()) {
                         destino = a;
-                        
+
                         if (t.getChave().isEmpty()) {
                             chave = "λ";
+                        } else {
+                            chave = t.getChave();
                         }
-                        else chave = t.getChave();
-                        
+
                         Desenho.desenharAresta(FXMLPrincipalController.painelD, origem, destino, chave);
                         break;
                     }
                 }
             }
-            
+
             FXMLPrincipalController.conjunto.getSelectionModel().select(FXMLPrincipalController.tabautoD);
         }
     }

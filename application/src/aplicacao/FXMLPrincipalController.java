@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -120,6 +121,7 @@ public class FXMLPrincipalController implements Initializable {
     //Itens gerais
     public static Vertice verticeAtual;
     public static Legenda legendaAtual;
+    public static Legenda adesivoAtual;
     public static Text textoAtual;
     public static Pane painelD;
     public static TableView tabelaD;
@@ -150,18 +152,29 @@ public class FXMLPrincipalController implements Initializable {
     @FXML 
     private MenuItem convgramauto;
     
+    //////////////////////////
+    // Menu Item
     @FXML 
-    private MenuItem auto;
+    private CheckMenuItem auto;
     
     @FXML 
-    private MenuItem mealy;
+    private CheckMenuItem mealy;
     
     @FXML 
-    private MenuItem moore;
+    private CheckMenuItem moore;
+    
+    public static final int MACHINE_AUTOMATO_FINITE = 1;
+    public static final int MACHINE_MOORE = 2;
+    public static final int MACHINE_MEALY = 3;
+    
+    public static int maquinaAtual;
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        FXMLPrincipalController.maquinaAtual = MACHINE_AUTOMATO_FINITE;
+        auto.setSelected(true);
         
         convexpauto.setOnAction(event -> {
             
@@ -182,18 +195,39 @@ public class FXMLPrincipalController implements Initializable {
         });
         
         auto.setOnAction(event -> {
-        
+            FXMLPrincipalController.maquinaAtual = MACHINE_AUTOMATO_FINITE;
+            FXMLPrincipalController.painelD.getChildren().clear();
+            auto.setSelected(true);
+            mealy.setSelected(false);
+            moore.setSelected(false);
+            
+            FXMLPrincipalController.lista.clear();
+            FXMLPrincipalController.arestas.clear();
+            GerenciadorAutomatos.quantidade = 0;
         });
         
         mealy.setOnAction(event -> {
-        
-        
+            FXMLPrincipalController.maquinaAtual = MACHINE_MEALY;
+            FXMLPrincipalController.painelD.getChildren().clear();
+            auto.setSelected(false);
+            mealy.setSelected(true);
+            moore.setSelected(false);
+            
+            FXMLPrincipalController.lista.clear();
+            FXMLPrincipalController.arestas.clear();
+            GerenciadorAutomatos.quantidade = 0;
         });
         
         moore.setOnAction(event -> {
-        
-        
-        
+            FXMLPrincipalController.maquinaAtual = MACHINE_MOORE;
+            FXMLPrincipalController.painelD.getChildren().clear();
+            auto.setSelected(false);
+            mealy.setSelected(false);
+            moore.setSelected(true);
+            
+            FXMLPrincipalController.lista.clear();
+            FXMLPrincipalController.arestas.clear();
+            GerenciadorAutomatos.quantidade = 0;
         });
         
         painelD = painelDesenho;
@@ -233,7 +267,6 @@ public class FXMLPrincipalController implements Initializable {
         entradaTextField.setOnKeyReleased(event -> {
 
             this.patternRegexERcomEntrada();
-
         });
 
         this.adicionarTextoTextArea(this.textAreaAjudaER);
