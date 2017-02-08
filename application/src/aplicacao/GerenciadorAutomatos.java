@@ -56,6 +56,11 @@ public class GerenciadorAutomatos {
 
     public static ArrayList<VerificacaoEE> vetor;
 
+    public static String saidaMoore;
+    public static ArrayList<Integer> passoMoore;
+    public static ArrayList<Integer> passoMealy;
+    public static String saidaMealy;
+
     public static void armazenarAutomato() {
 
         automato = new Automato();
@@ -63,6 +68,11 @@ public class GerenciadorAutomatos {
         for (Vertice v : FXMLPrincipalController.lista) {
             est = new Estados(v.getID(), v.isSelected());
             automato.getLista().add(est);
+
+            if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MOORE) {
+                est.setAdesivo(v.adesivoTexto);
+            }
+
             if (v.isIsInitial()) {
                 automato.setInicial(est);
             }
@@ -82,14 +92,96 @@ public class GerenciadorAutomatos {
                 }
             }
 
-            String[] transicoes = a.getTexto().split("|");
-            for (String as : transicoes) {
-                if (!as.equals("|")) {
 
-                    inicio.getLista().add(new Transicao(as, fim));
-                }
+            switch (FXMLPrincipalController.maquinaAtual) {
+
+                case FXMLPrincipalController.MACHINE_AUTOMATO_FINITE:
+                case FXMLPrincipalController.MACHINE_MOORE:
+                    
+                    String[] transicoes = a.getTexto().split("|");
+                    for (String as : transicoes) {
+                        if (!as.equals("|")) {
+
+                            inicio.getLista().add(new Transicao(as, fim));
+                        }
+                    }
+
+                    break;
+                    
+                case FXMLPrincipalController.MACHINE_MEALY:
+                    
+                    Transicao t;
+                    int num = a.getEntrada().size();
+                    for(int i = 0; i < num; i++){
+                        t = new Transicao("", fim);
+                        t.setEntrada(a.getEntrada().get(i));
+                        t.setSaida(a.getSaida().get(i));
+                        inicio.getLista().add(t);
+                    }
+                    
+                    break;
             }
         }
+    }
+
+    public static void processarMoore(String entrada) {
+        saidaMoore = "";
+        Estados e = automato.getInicial();
+
+        String saida = "";
+        boolean hasNext;
+        int i = 0;
+        passoMoore = new ArrayList<>();
+        saida += e.getAdesivo();
+        passoMoore.add(e.getValor());
+        while (e != null && i < entrada.length()) {
+
+            hasNext = false;
+            for (Transicao t : e.getLista()) {
+                if (entrada.charAt(i) == t.getChave().charAt(0)) {
+                    e = t.getAlvo(); passoMoore.add(e.getValor());
+                    saida += e.getAdesivo();
+                    hasNext = true;
+                    i++;
+                    break;
+                }
+            }
+
+            if (!hasNext) {
+                e = null;
+            }
+        }
+
+        GerenciadorAutomatos.saidaMoore = saida;
+    }
+
+    //corrigir mealy, não funcionando certo
+    public static void processarMealy(String entrada) {
+
+        saidaMealy = "";
+        Estados e = automato.getInicial();
+        int i = 0;
+        boolean hasNext;
+        String saida = "";
+        while (e != null && i < entrada.length()) {
+            hasNext = false;
+            for (Transicao t : e.getLista()) {
+
+                if (entrada.charAt(i) == t.getEntrada().charAt(0)) {
+                    i++;
+                    hasNext = true;
+                    saida += t.getSaida();
+                    e = t.getAlvo();
+                    break;
+                }
+            }
+
+            if (!hasNext) {
+                e = null;
+            }
+        }
+
+        saidaMealy = saida;
     }
 
     public void montarPainel(Pane painelDesenho, ArrayList<Vertice> lista, ArrayList<Legenda> legendas) {
@@ -142,7 +234,7 @@ public class GerenciadorAutomatos {
                             String name;
                             Optional<String> result = dialog.showAndWait();
                             if (result.isPresent()) {
-                                
+
                                 name = result.get();
                                 if (name.isEmpty()) {
                                     v.adesivo.setText("λ");
@@ -220,13 +312,13 @@ public class GerenciadorAutomatos {
                         textoAtual.setLayoutX(event.getX());
                         textoAtual.setLayoutY(event.getY());
                     }
-                    
+
                     if (adesivoAtual != null) {
-                        
+
                         adesivoAtual.setLayout(event.getX(), event.getY());
                         verticeAtual.setCenterX(event.getX() - 15);
                         verticeAtual.setCenterY(event.getY() + 30);
-                        verticeAtual.corrigir(event.getX() -15 , event.getY()+30);
+                        verticeAtual.corrigir(event.getX() - 15, event.getY() + 30);
                     }
                     break;
 

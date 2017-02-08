@@ -204,6 +204,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLPrincipalController.lista.clear();
             FXMLPrincipalController.arestas.clear();
             GerenciadorAutomatos.quantidade = 0;
+            entradaPassoPasso.setDisable(false);
         });
         
         mealy.setOnAction(event -> {
@@ -216,6 +217,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLPrincipalController.lista.clear();
             FXMLPrincipalController.arestas.clear();
             GerenciadorAutomatos.quantidade = 0;
+            entradaPassoPasso.setDisable(true);
         });
         
         moore.setOnAction(event -> {
@@ -228,6 +230,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLPrincipalController.lista.clear();
             FXMLPrincipalController.arestas.clear();
             GerenciadorAutomatos.quantidade = 0;
+            entradaPassoPasso.setDisable(true);
         });
         
         painelD = painelDesenho;

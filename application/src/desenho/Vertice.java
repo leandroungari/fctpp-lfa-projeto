@@ -423,7 +423,7 @@ public class Vertice extends Circle {
         entrada.setPrefSize(50, 13);
         entrada.setText("λ");
 
-        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_AUTOMATO_FINITE) {
+        if (FXMLPrincipalController.maquinaAtual != FXMLPrincipalController.MACHINE_MEALY) {
             entrada.setOnKeyReleased(e -> {
 
                 if (e.getCode() == KeyCode.ENTER) {

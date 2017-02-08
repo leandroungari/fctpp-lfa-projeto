@@ -65,34 +65,50 @@ public class FXMLEntradaMultiplaAutomatoController implements Initializable {
         executar.setOnAction(event -> {
 
             GerenciadorAutomatos.armazenarAutomato();
-            
+
             //usar a variavel estrutura da classe GerenciarAutomatos
-            
             //usar a variavel estrutura da classe GerenciarAutomatos
-            
             Object[] listas = tabela.getItems().toArray();
             LinhaTabela linha;
             ArrayList<String> valoresEntrada = new ArrayList<>();
-            for(int i = 0; i < listas.length; i++){
+            for (int i = 0; i < listas.length; i++) {
                 linha = (LinhaTabela) listas[i];
                 valoresEntrada.add(linha.getNaoTerminal());
             }
-            
+
             ArrayList<String> resultado = new ArrayList<>();
-            
+
             //o  ArrayList valoresEntrada contém os as strings de entrada
-            for(String s: valoresEntrada){
-                
-                GerenciadorAutomatos.processamentoAutomato(s);
-                
-                if(GerenciadorAutomatos.verificacao){
-                    resultado.add("Aprovado");
-                }
-                else{
-                    resultado.add("Rejeitado");
+            for (String s : valoresEntrada) {
+
+                switch (FXMLPrincipalController.maquinaAtual) {
+
+                    case FXMLPrincipalController.MACHINE_AUTOMATO_FINITE:
+                        
+                        GerenciadorAutomatos.processamentoAutomato(s);
+
+                        if (GerenciadorAutomatos.verificacao) {
+                            resultado.add("Aprovado");
+                        } else {
+                            resultado.add("Rejeitado");
+                        }
+                        
+                        break;
+
+                    case FXMLPrincipalController.MACHINE_MOORE:
+                        
+                        GerenciadorAutomatos.processarMoore(s);
+                        resultado.add(GerenciadorAutomatos.saidaMoore);
+                        break;
+
+                    case FXMLPrincipalController.MACHINE_MEALY:
+                        
+                        GerenciadorAutomatos.processarMealy(s);
+                        resultado.add(GerenciadorAutomatos.saidaMealy);
+                        break;
                 }
             }
-            
+
             Object[] vetor = tabela.getItems().toArray();
 
             LinhaTabela li;

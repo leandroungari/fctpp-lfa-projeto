@@ -7,12 +7,12 @@ package aplicacao;
 
 import desenho.Vertice;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
@@ -41,6 +41,7 @@ public class FXMLEntradaPassoPassoController implements Initializable {
     private Label mensagem;
 
     private static int atual;
+    private static ArrayList<Integer> list;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -60,7 +61,7 @@ public class FXMLEntradaPassoPassoController implements Initializable {
 
                 for (Vertice v : FXMLPrincipalController.lista) {
 
-                    if (v.getID() == GerenciadorAutomatos.passoApasso.get((atual % GerenciadorAutomatos.passoApasso.size()))) {
+                    if (v.getID() == list.get((atual % list.size()))) {
                         v.setFill(Color.RED);
                     }
 
@@ -78,7 +79,7 @@ public class FXMLEntradaPassoPassoController implements Initializable {
 
             for (Vertice v : FXMLPrincipalController.lista) {
 
-                for (Integer a : GerenciadorAutomatos.passoApasso) {
+                for (Integer a : list) {
                     if (v.getID() == a) {
                         v.setFill(Color.RED);
                     }
@@ -105,17 +106,26 @@ public class FXMLEntradaPassoPassoController implements Initializable {
             String entradaTexto = entrada.getText();
             atual = 0;
             GerenciadorAutomatos.armazenarAutomato();
-            GerenciadorAutomatos.processamentoAutomato(entradaTexto);
 
-            if (GerenciadorAutomatos.verificacao) {
-                proximo.setDisable(false);
-                fim.setDisable(false);
-            } else {
+            switch (FXMLPrincipalController.maquinaAtual) {
 
-                mensagem.setText("Entrada rejeitada!");
-                mensagem.setTextFill(Color.RED);
-                proximo.setDisable(true);
-                fim.setDisable(true);
+                case FXMLPrincipalController.MACHINE_AUTOMATO_FINITE:
+                    GerenciadorAutomatos.processamentoAutomato(entradaTexto);
+
+                    if (GerenciadorAutomatos.verificacao) {
+                        proximo.setDisable(false);
+                        fim.setDisable(false);
+                        list = GerenciadorAutomatos.passoApasso;
+                    } else {
+
+                        mensagem.setText("Entrada rejeitada!");
+                        mensagem.setTextFill(Color.RED);
+                        proximo.setDisable(true);
+                        fim.setDisable(true);
+                    }
+                    break;
+
+                
             }
 
         });

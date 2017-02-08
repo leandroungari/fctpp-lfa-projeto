@@ -20,7 +20,7 @@
               <MenuItem mnemonicParsing="false" text="Sair" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Automatos Finitos">
+          <Menu mnemonicParsing="false" text="AF/Moore/Mealy">
             <items>
               <MenuItem fx:id="entradaUnicaAutomato" mnemonicParsing="false" text="Entrada Única" />
                   <MenuItem fx:id="entradaMultiplaAutomato" mnemonicParsing="false" text="Entrada Multipla" />
@@ -90,7 +90,7 @@
                      </children>
                   </Pane>
                </content></Tab>
-          <Tab fx:id="tabauto" text="Autômatos Finitos">
+          <Tab fx:id="tabauto" text="Autômatos">
                <content>
                   <GridPane>
                     <columnConstraints>

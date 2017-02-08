@@ -10,6 +10,7 @@ public class Transicao {
     
     
     private String chave;
+    private String entrada, saida;
     private Estados alvo;
 
     public Transicao(String chave, Estados alvo) {
@@ -32,6 +33,25 @@ public class Transicao {
     public void setAlvo(Estados alvo) {
         this.alvo = alvo;
     }
+
+    public String getEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(String entrada) {
+        this.entrada = entrada;
+    }
+
+    public String getSaida() {
+        return saida;
+    }
+
+    public void setSaida(String saida) {
+        this.saida = saida;
+    }
+
     
     
+    
+
 }

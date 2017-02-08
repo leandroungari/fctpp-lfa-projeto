@@ -19,6 +19,7 @@ public class Estados {
     private int valor;
     private boolean isFinal;
     private float x, y;
+    private String adesivo;
     private ArrayList<Transicao> lista = new ArrayList<>();
     private Automato automato;
 
@@ -30,6 +31,16 @@ public class Estados {
     public int getValor() {
         return valor;
     }
+
+    public String getAdesivo() {
+        return adesivo;
+    }
+
+    public void setAdesivo(String adesivo) {
+        this.adesivo = adesivo;
+    }
+    
+    
 
     public void setValor(int valor) {
         this.valor = valor;

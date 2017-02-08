@@ -6,6 +6,7 @@
 package desenho;
 
 import aplicacao.FXMLPrincipalController;
+import java.util.ArrayList;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
@@ -23,7 +24,7 @@ public abstract class Aresta {
     protected boolean directed;
     protected boolean selected = false;
     protected String texto;
-    protected String entrada, saida;
+    protected ArrayList<String> entrada, saida;
 
     public Text labelTexto;
     public Point pa, pb, pc;
@@ -33,18 +34,14 @@ public abstract class Aresta {
     public boolean dupla = false;
 
     public Aresta(Vertice origem, Vertice destino, String texto, boolean directed) {
+        this.entrada = new ArrayList<>();
+        this.saida = new ArrayList<>();
 
         this.origem = origem;
         this.destino = destino;
         this.directed = directed;
         this.texto = texto;
         
-        if (FXMLPrincipalController.maquinaAtual == FXMLPrincipalController.MACHINE_MEALY) {
-            
-            String[] lista = texto.split(":");
-            this.entrada = lista[0];
-            this.saida = lista[1];
-        }
     }
 
     public boolean isSelected() {
@@ -59,23 +56,21 @@ public abstract class Aresta {
         return texto;
     }
 
-    public String getSaida() {
-        return saida;
-    }
-
-    public void setSaida(String saida) {
-        this.saida = saida;
-    }
-
-    public String getEntrada() {
+    public ArrayList<String> getEntrada() {
         return entrada;
     }
 
-    public void setEntrada(String entrada) {
+    public void setEntrada(ArrayList<String> entrada) {
         this.entrada = entrada;
     }
-    
-    
+
+    public ArrayList<String> getSaida() {
+        return saida;
+    }
+
+    public void setSaida(ArrayList<String> saida) {
+        this.saida = saida;
+    }
 
     public void setTexto(String texto) {
         this.texto = texto;
