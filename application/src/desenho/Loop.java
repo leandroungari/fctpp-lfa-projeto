@@ -27,7 +27,7 @@ public class Loop extends Aresta {
 
     private int deslocamento = 10;
     private int size = 10;
-    
+
     private final ContextMenu contextMenu = new ContextMenu();
 
     public Loop(Vertice origem, String texto, boolean directed) {
@@ -40,7 +40,7 @@ public class Loop extends Aresta {
         double meioX = origem.getCenterX();
         double meioY = origem.getCenterY();
 
-        this.forma = new Circle(meioX , meioY - 23, 18);
+        this.forma = new Circle(meioX, meioY - 23, 18);
         this.forma.setFill(Color.TRANSPARENT);
         this.forma.setStroke(Color.BLACK);
 
@@ -48,52 +48,87 @@ public class Loop extends Aresta {
         labelTexto.setStroke(Paint.valueOf("#000"));
         labelTexto.setFill(Paint.valueOf("#222"));
         posicionarTexto();
-        
+
         this.labelTexto.setOnMousePressed(event -> {
-            
-            
+
             if (event.isSecondaryButtonDown()) {
                 contextMenu.getItems().clear();
-                
 
-                String[] opcoes = this.texto.split("|");
-                ArrayList<String> posterior = new ArrayList<>();
-                for (int i = 0; i < opcoes.length; i++) {
-                    
-                    opcoes[i] = opcoes[i].trim();
-                    if (!opcoes[i].equals("|")) {
-                        posterior.add(opcoes[i]);
-                        MenuItem a = new MenuItem(opcoes[i]);
-                        a.setOnAction(e -> {
-                            
-                            String novaTransicao = "";
-                            int j = 0;
-                            for(String s: posterior){
-                                
-                                
-                                if(!s.equals(a.getText())){
-                                    novaTransicao += s;
-                                    if(j != posterior.size()-1) novaTransicao += "|";
+                if (FXMLPrincipalController.maquinaAtual != FXMLPrincipalController.MACHINE_MEALY) {
+
+                    String[] opcoes = this.texto.split("|");
+                    ArrayList<String> posterior = new ArrayList<>();
+                    for (int i = 0; i < opcoes.length; i++) {
+
+                        opcoes[i] = opcoes[i].trim();
+                        if (!opcoes[i].equals("|")) {
+                            posterior.add(opcoes[i]);
+                            MenuItem a = new MenuItem(opcoes[i]);
+                            a.setOnAction(e -> {
+
+                                String novaTransicao = "";
+                                int j = 0;
+                                for (String s : posterior) {
+
+                                    if (!s.equals(a.getText())) {
+                                        novaTransicao += s;
+                                        if (j != posterior.size() - 1) {
+                                            novaTransicao += "|";
+                                        }
+                                    }
+                                    j++;
                                 }
-                                j++;
+
+                                if ((!novaTransicao.isEmpty()) && novaTransicao.charAt(novaTransicao.length() - 1) == '|') {
+                                    novaTransicao = novaTransicao.substring(0, novaTransicao.length() - 1);
+                                }
+
+                                this.labelTexto.setText(novaTransicao);
+                                this.texto = novaTransicao;
+
+                                if (this.texto.isEmpty()) {
+
+                                    FXMLPrincipalController.painelD.getChildren().remove(this.labelTexto);
+                                    FXMLPrincipalController.painelD.getChildren().remove(this.getForma());
+                                    FXMLPrincipalController.arestas.remove(this);
+                                }
+
+                            });
+
+                            contextMenu.getItems().add(a);
+                        }
+                    }
+                }
+                else{
+                    final int num = this.getEntrada().size();
+                    for (int i = 0; i < num; i++) {
+                        final int pos = i;
+                        MenuItem a = new MenuItem(this.entrada.get(i) + " : " + this.getSaida().get(i));
+                        a.setOnAction(e -> {
+
+                            this.getEntrada().remove(pos);
+                            this.getSaida().remove(pos);
+
+                            String novaTransicao = "";
+                            for (int b = 0; b < num - 1; b++) {
+                                novaTransicao += this.entrada.get(b) + " : " + this.getSaida().get(b);
+                                if (b != num - 2) {
+                                    novaTransicao += "|";
+                                }
                             }
-                            
-                            if ((!novaTransicao.isEmpty()) && novaTransicao.charAt(novaTransicao.length()-1) == '|') {
-                                novaTransicao = novaTransicao.substring(0, novaTransicao.length()-1);
-                            }
-                            
+
                             this.labelTexto.setText(novaTransicao);
                             this.texto = novaTransicao;
-                            
-                            if(this.texto.isEmpty()){
-                                
+
+                            if (this.texto.isEmpty()) {
+
                                 FXMLPrincipalController.painelD.getChildren().remove(this.labelTexto);
+                                FXMLPrincipalController.painelD.getChildren().remove(this.a);
+                                FXMLPrincipalController.painelD.getChildren().remove(this.b);
                                 FXMLPrincipalController.painelD.getChildren().remove(this.getForma());
                                 FXMLPrincipalController.arestas.remove(this);
                             }
-                            
                         });
-                        
                         contextMenu.getItems().add(a);
                     }
                 }
@@ -140,7 +175,7 @@ public class Loop extends Aresta {
 
     @Override
     public void posicionarFlecha() {
-        
+
     }
 
 }

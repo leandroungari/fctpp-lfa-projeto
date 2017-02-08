@@ -6,9 +6,7 @@
 package desenho;
 
 import aplicacao.FXMLPrincipalController;
-import java.util.Optional;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
