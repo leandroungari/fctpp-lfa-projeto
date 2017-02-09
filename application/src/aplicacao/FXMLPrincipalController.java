@@ -105,9 +105,14 @@ public class FXMLPrincipalController implements Initializable {
     private Label stringTerminal;
     
     @FXML
+    private Tab tabexp;
+    @FXML
     private Tab tabauto;
     @FXML
+    private Tab tabgram;
+    @FXML
     private TabPane conjuntoTab;
+    
     
     
     ////////////////////////////////////
@@ -125,7 +130,7 @@ public class FXMLPrincipalController implements Initializable {
     public static Text textoAtual;
     public static Pane painelD;
     public static TableView tabelaD;
-    public static Tab tabautoD;
+    public static Tab tabautoD, tabgramD, tabexpD;
     public static TabPane conjunto;
 
     public static Vertice verticeInicial;
@@ -183,7 +188,7 @@ public class FXMLPrincipalController implements Initializable {
         
         convautogram.setOnAction(event -> {
             
-            GerenciadorConversao.converterAutomatoGramatica();
+            GerenciadorConversao.converterAutomatoGramatica(tabelaD);
         });
         
         convautoexp.setOnAction(event -> {
@@ -205,6 +210,10 @@ public class FXMLPrincipalController implements Initializable {
             FXMLPrincipalController.arestas.clear();
             GerenciadorAutomatos.quantidade = 0;
             entradaPassoPasso.setDisable(false);
+            convautoexp.setDisable(false);
+            convautogram.setDisable(false);
+            convexpauto.setDisable(false);
+            convgramauto.setDisable(false);
         });
         
         mealy.setOnAction(event -> {
@@ -218,6 +227,10 @@ public class FXMLPrincipalController implements Initializable {
             FXMLPrincipalController.arestas.clear();
             GerenciadorAutomatos.quantidade = 0;
             entradaPassoPasso.setDisable(true);
+            convautoexp.setDisable(true);
+            convautogram.setDisable(true);
+            convexpauto.setDisable(true);
+            convgramauto.setDisable(true);
         });
         
         moore.setOnAction(event -> {
@@ -231,11 +244,17 @@ public class FXMLPrincipalController implements Initializable {
             FXMLPrincipalController.arestas.clear();
             GerenciadorAutomatos.quantidade = 0;
             entradaPassoPasso.setDisable(true);
+            convautoexp.setDisable(true);
+            convautogram.setDisable(true);
+            convexpauto.setDisable(true);
+            convgramauto.setDisable(true);
         });
         
         painelD = painelDesenho;
         tabelaD = table;
         tabautoD = tabauto;
+        tabgramD = tabgram;
+        tabexpD = tabexp;
         conjunto = conjuntoTab;
 
         //Executar automatos

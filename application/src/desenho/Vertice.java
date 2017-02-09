@@ -38,7 +38,7 @@ public class Vertice extends Circle {
     public Legenda adesivo;
     public String adesivoTexto;
 
-    private final ContextMenu contextMenu = new ContextMenu();
+    public final ContextMenu contextMenu = new ContextMenu();
 
     public Vertice(int id, double x, double y, double raio) {
 
