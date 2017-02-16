@@ -41,6 +41,8 @@ public class Estados {
     }
     
     
+    
+    
 
     public void setValor(int valor) {
         this.valor = valor;
@@ -82,17 +84,29 @@ public class Estados {
         
         for(Transicao t: lista){
             if(t.getAlvo().getValor() == alvo && t.getChave().equals(letra)){
+                 
+                
                 return;
             }
         }
         
         try {
             
-            this.lista.add(new Transicao(letra, automato.get(alvo)));
+            this.lista.add(new Transicao(letra, GerenciadorAutomatos.automato.get(alvo)));
             
         } catch (Exception ex) {
             Logger.getLogger(Estados.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public boolean hasTransicao (int destino) {
+        
+        for (Transicao t: this.getLista()) {
+            if (t.getAlvo().getValor() == destino) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Automato getAutomato() {

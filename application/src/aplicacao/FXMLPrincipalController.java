@@ -168,6 +168,9 @@ public class FXMLPrincipalController implements Initializable {
     @FXML 
     private CheckMenuItem moore;
     
+    @FXML 
+    private MenuItem limpar;
+    
     public static final int MACHINE_AUTOMATO_FINITE = 1;
     public static final int MACHINE_MOORE = 2;
     public static final int MACHINE_MEALY = 3;
@@ -180,6 +183,10 @@ public class FXMLPrincipalController implements Initializable {
         
         FXMLPrincipalController.maquinaAtual = MACHINE_AUTOMATO_FINITE;
         auto.setSelected(true);
+        
+        limpar.setOnAction(event -> {
+            FXMLPrincipalController.painelD.getChildren().clear();
+        });
         
         convexpauto.setOnAction(event -> {
             
@@ -196,7 +203,7 @@ public class FXMLPrincipalController implements Initializable {
         });
         
         convgramauto.setOnAction(event -> {
-            GerenciadorConversao.converterGramaticaAutomato();
+            GerenciadorConversao.converterGramaticaAutomato(tabelaD);
         });
         
         auto.setOnAction(event -> {

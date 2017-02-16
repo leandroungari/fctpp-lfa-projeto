@@ -34,10 +34,16 @@ public class Gramatica {
         }
     }
     
-    public void create (int valor, String chave) {
+    public boolean create (int valor, String chave) {
         
         regra.put(chave, new ArrayList<>());
-        naoTerminais.put(valor, chave);
+        for (int i = 0; i < naoTerminais.size(); i++) {
+            if (((String) naoTerminais.get(i)).equals(chave)) {
+                return false;
+            }
+        }
+        
+        naoTerminais.put(valor, chave); return true;
     }
     
     public String get(Integer num){
@@ -70,6 +76,10 @@ public class Gramatica {
 
     public String getRegraInicial() {
         return regraInicial;
+    }
+
+    public HashMap<Integer, String> getNaoTerminais() {
+        return naoTerminais;
     }
     
     
