@@ -190,7 +190,11 @@ public class FXMLPrincipalController implements Initializable {
         
         convexpauto.setOnAction(event -> {
             
-            GerenciadorConversao.converterExpressaoAutomato(regraTextField);
+            try {
+                GerenciadorConversao.converterExpressaoAutomato(regraTextField);
+            } catch (Exception ex) {
+                Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         convautogram.setOnAction(event -> {

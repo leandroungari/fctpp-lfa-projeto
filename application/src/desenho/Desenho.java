@@ -6,6 +6,7 @@
 package desenho;
 
 import aplicacao.FXMLPrincipalController;
+import aplicacao.GerenciadorAutomatos;
 import aplicacao.Gramatica;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -25,6 +26,26 @@ public class Desenho {
     public static void computeCircledPosition(Gramatica grammar, int ray) {
 
         int nVert = grammar.getNaoTerminais().size();
+        int step = 360 / nVert;
+        int deslocX = 220 + ray;
+        int deslocY = 135 + ray;
+        for (int i = 0; i < nVert; i++) {
+            double ang = i * step;
+            ang = ang * Math.PI / 180;//necessario em radianos
+            float X = (float) Math.cos(ang);
+            float Y = (float) Math.sin(ang);
+            X = X * ray + deslocX;
+            Y = Y * ray + deslocY;
+            FXMLPrincipalController.lista.get(i).setCenterX(X);
+            FXMLPrincipalController.lista.get(i).setCenterY(Y);
+            FXMLPrincipalController.lista.get(i).numero.setLayoutX(X - 10);
+            FXMLPrincipalController.lista.get(i).numero.setLayoutY(Y + 5);
+        }
+    }
+    
+    public static void computeCircledPosition(int ray) {
+
+        int nVert = FXMLPrincipalController.lista.size();
         int step = 360 / nVert;
         int deslocX = 220 + ray;
         int deslocY = 135 + ray;
