@@ -186,6 +186,9 @@ public class FXMLPrincipalController implements Initializable {
         
         limpar.setOnAction(event -> {
             FXMLPrincipalController.painelD.getChildren().clear();
+            FXMLPrincipalController.lista.clear();
+            FXMLPrincipalController.arestas.clear();
+            FXMLPrincipalController.legendas.clear();
         });
         
         convexpauto.setOnAction(event -> {
@@ -203,7 +206,11 @@ public class FXMLPrincipalController implements Initializable {
         });
         
         convautoexp.setOnAction(event -> {
-            GerenciadorConversao.converterAutomatoExpressao();
+            try {
+                GerenciadorConversao.converterAutomatoExpressao(regraTextField);
+            } catch (Exception ex) {
+                Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         convgramauto.setOnAction(event -> {

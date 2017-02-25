@@ -12,10 +12,10 @@ import java.util.logging.Logger;
 /**
  *
  * @author Leandro Ungari Cayres <leandroungari@gmail.com>
- * @date   January 14,2017
+ * @date January 14,2017
  */
 public class Estados {
-    
+
     private int valor;
     private boolean isFinal;
     private float x, y;
@@ -39,10 +39,6 @@ public class Estados {
     public void setAdesivo(String adesivo) {
         this.adesivo = adesivo;
     }
-    
-    
-    
-    
 
     public void setValor(int valor) {
         this.valor = valor;
@@ -79,29 +75,33 @@ public class Estados {
     public void setY(float y) {
         this.y = y;
     }
-    
-    public void addTransicao(int alvo, String letra){
-        
-        for(Transicao t: lista){
-            if(t.getAlvo().getValor() == alvo && t.getChave().equals(letra)){
-                 
+
+    public void addTransicao(int alvo, String letra) {
+
+
+        for (Transicao t : lista) {
+            if (t.getAlvo().getValor() == alvo && t.getChave().equals(letra)) {
+
+                return;
+            } else if (Automato.composta && t.getAlvo().getValor() == alvo && (!t.getChave().equals(letra))) {
                 
+                t.setChave("("+t.getChave() + "|" + letra+")");
                 return;
             }
         }
-        
+
         try {
-            
+
             this.lista.add(new Transicao(letra, GerenciadorAutomatos.automato.get(alvo)));
-            
+
         } catch (Exception ex) {
             Logger.getLogger(Estados.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean hasTransicao (int destino) {
-        
-        for (Transicao t: this.getLista()) {
+
+    public boolean hasTransicao(int destino) {
+
+        for (Transicao t : this.getLista()) {
             if (t.getAlvo().getValor() == destino) {
                 return true;
             }
@@ -116,7 +116,5 @@ public class Estados {
     public void setAutomato(Automato automato) {
         this.automato = automato;
     }
-    
-    
-    
+
 }

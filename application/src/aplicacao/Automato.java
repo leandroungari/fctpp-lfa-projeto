@@ -11,6 +11,7 @@ public class Automato {
     
     private ArrayList<Estados> lista = new ArrayList<>();
     private Estados inicial;
+    public static boolean composta = false;
 
     public Automato() {
     }
