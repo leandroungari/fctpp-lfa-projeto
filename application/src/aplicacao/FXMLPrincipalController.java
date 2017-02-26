@@ -121,6 +121,9 @@ public class FXMLPrincipalController implements Initializable {
     private MenuItem abrirAutomato;
     @FXML
     private MenuItem salvarAutomato;
+    
+    @FXML
+    private MenuItem sair;
 
     ////////////////////////////////////
     //Itens gerais
@@ -183,6 +186,8 @@ public class FXMLPrincipalController implements Initializable {
         
         FXMLPrincipalController.maquinaAtual = MACHINE_AUTOMATO_FINITE;
         auto.setSelected(true);
+        
+        sair.setOnAction(event -> System.exit(0));
         
         limpar.setOnAction(event -> {
             FXMLPrincipalController.painelD.getChildren().clear();

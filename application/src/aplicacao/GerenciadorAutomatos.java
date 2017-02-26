@@ -155,7 +155,6 @@ public class GerenciadorAutomatos {
         GerenciadorAutomatos.saidaMoore = saida;
     }
 
-    //corrigir mealy, não funcionando certo
     public static void processarMealy(String entrada) {
 
         saidaMealy = "";

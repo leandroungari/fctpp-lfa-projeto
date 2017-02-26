@@ -537,7 +537,6 @@ public class GerenciadorConversao {
                                 /*if (tout.getAlvo() == e) {
                                     continue;
                                 }*/
-
                                 //recuperando o loop
                                 loop = "";
                                 for (int f = 0; f < e.getLista().size(); f++) {
@@ -577,16 +576,14 @@ public class GerenciadorConversao {
 
                                     textot2 = tout.getChave();
                                 }
-                                
+
                                 /*if ((!loop.equals("")) && e.isIsFinal() && (!tout.getAlvo().isIsFinal())) {
                                     textot2 = "";
                                 }*/
-                                
                                 if (tout.getAlvo() == e || textot2.equals("λ")) {
-                                    
+
                                     textot2 = "";
                                 }
-                                
 
                                 estIn.addTransicao(tout.getAlvo().getValor(), textot1 + loop + textot2);
 
@@ -606,12 +603,30 @@ public class GerenciadorConversao {
                 break;
             }
         }
+
+        String loopinicial = "";
+
+        for (Transicao t : automato.getInicial().getLista()) {
+
+            if (t.getAlvo() == automato.getInicial()) {
+                if (loopinicial.length() == 0) {
+                    loopinicial = t.getChave();
+                }
+                else loopinicial = loopinicial + "|" + t.getChave();
+            }
+        }
+
+        if (loopinicial.length() == 1) {
+            loopinicial = loopinicial + "*";
+        } else if (loopinicial.length() > 1) {
+            loopinicial = "(" + loopinicial + ")*";
+        }
         automato.composta = false;
-        System.out.println(textoFinal);
-        
-        regra.setText(textoFinal);
+        System.out.println(loopinicial + textoFinal);
+
+        regra.setText(loopinicial + textoFinal);
         FXMLPrincipalController.conjunto.getSelectionModel().select(FXMLPrincipalController.tabexpD);
-        
+
     }
 
     /*

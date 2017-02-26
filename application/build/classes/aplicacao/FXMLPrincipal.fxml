@@ -17,7 +17,7 @@
             <items>
                   <MenuItem fx:id="abrirAutomato" mnemonicParsing="false" text="Abrir Autômato" />
                   <MenuItem fx:id="salvarAutomato" mnemonicParsing="false" text="Salvar Autômato" />
-              <MenuItem mnemonicParsing="false" text="Sair" />
+              <MenuItem fx:id="sair" mnemonicParsing="false" text="Sair" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="AF/Moore/Mealy">
@@ -59,11 +59,6 @@
                   <CheckMenuItem fx:id="auto" mnemonicParsing="false" text="Autômato Finito" />
                   <CheckMenuItem fx:id="mealy" mnemonicParsing="false" text="Máquina Mealy" />
                   <CheckMenuItem fx:id="moore" mnemonicParsing="false" text="Máquina Moore" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Ajuda">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Sobre" />
                </items>
             </Menu>
         </menus>
